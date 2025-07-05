@@ -116,7 +116,7 @@ export default function Lab1() {
                             <td>Q7</td>
                             <td>MongoDB</td>
                             <td>3/17/21</td>
-                            <td>85</td>
+                            <td>90</td>
                         </tr>
                         <tr>
                             <td>Q8</td>
