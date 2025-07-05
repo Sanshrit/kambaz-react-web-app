@@ -250,7 +250,7 @@ export default function Lab1() {
 
                     <label htmlFor="wd-text-fields-salary-start"> Starting salary:</label>
                     <input type="number"
-                        value="100000"
+                        defaultValue="100000"
                         placeholder="1000"
                         id="wd-text-fields-salary-start" /><br />
 
