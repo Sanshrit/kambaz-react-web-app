@@ -168,7 +168,7 @@ export default function Lab1() {
                     <input type="text" title="John" id="wd-text-fields-first-name" /> <br />
                     <label htmlFor="wd-text-fields-last-name">Last name:</label>
                     <input type="text" placeholder="Doe"
-                        value="Wonderland"
+                        defaultValue="Wonderland"
                         title="The last name"
                         id="wd-text-fields-last-name" />
                     <h5>Text boxes</h5>
