@@ -5,8 +5,10 @@ export default function CourseNavigation() {
       <Link to="/Kambaz/Courses/1234/Home" id="wd-course-home-link">Home</Link><br/>
       <Link to="/Kambaz/Courses/1234/Modules" id="wd-course-modules-link">Modules
         </Link><br/>
-      <Link to="/Kambaz/Courses/1234/Piazza" id="wd-course-piazza-link">Piazza</Link><br/>
-      <Link to="/Kambaz/Courses/1234/Zoom" id="wd-course-zoom-link">Zoom</Link><br/>
+      {/* <Link to="/Kambaz/Courses/1234/Piazza" id="wd-course-piazza-link">Piazza</Link><br/> */}
+      <a href="https://piazza.com/class/mchnh9kzzbu35p" target="_blank" id="wd-course-piazza-link">Piazza</a><br/>
+      {/* <Link to="/Kambaz/Courses/1234/Zoom" id="wd-course-zoom-link">Zoom</Link><br/> */}
+      <a href="https://zoom.us/myhome" target="_blank" id="wd-course-zoom-link">Zoom</a><br/>
       <Link to="/Kambaz/Courses/1234/Assignments" id="wd-course-quizzes-link">
           Assignments</Link><br/>
       <Link to="/Kambaz/Courses/1234/Quizzes" id="wd-course-assignments-link">Quizzes
