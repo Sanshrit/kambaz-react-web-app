@@ -102,7 +102,7 @@ export default function AssignmentEditor() {
             <table width="100%">
                 <tr>
                     <td align="right">
-                        <button type="button">Cancel</button>
+                        <button type="button">Cancel</button>{' '} 
                         <button type="button">Save</button>
                     </td>
                 </tr>

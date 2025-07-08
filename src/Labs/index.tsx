@@ -7,7 +7,7 @@ export default function Labs() {
   return (
     <div id = "wd-labs">
       <h1>Sanshrit Bakshi</h1>
-      <h1>CS5610 Web Development Section - 1 (Summer 2)</h1>
+      <h2>CS5610 Web Development Section - 1 (Summer 2)</h2>
       <h1>Labs</h1>
       <TOC />
       <Routes>

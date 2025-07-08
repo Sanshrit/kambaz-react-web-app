@@ -190,6 +190,10 @@ export default function Lab1() {
                         Hello World!
                     </button>
 
+
+                    <h5>File upload</h5>
+                    <input id="wd-upload-button" type="file" />
+
                     <h5 id="wd-radio-buttons">Radio buttons</h5>
 
                     <label>Favorite movie genre:</label><br />
@@ -256,7 +260,7 @@ export default function Lab1() {
 
                     <label htmlFor="wd-text-fields-rating"> Rating: </label>
                     <input type="range"
-                        value="4"
+                        defaultValue="4"
                         max="5"
                         placeholder="Doe"
                         id="wd-text-fields-rating" /><br />
