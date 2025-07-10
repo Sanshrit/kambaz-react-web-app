@@ -1,3 +1,4 @@
+import "./styles.css"
 import { Routes, Route, Navigate } from "react-router";
 import Dashboard from "./Dashboard";
 import Account from "./Account";
