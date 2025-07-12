@@ -12,7 +12,7 @@ export default function Dashboard() {
                         <Card>
                             <Link to="/Kambaz/Courses/1234/Home"
                                 className="wd-dashboard-course-link text-decoration-none text-dark">
-                                <Card.Img variant="top" src="/images/courselogo.jpg" width="80%" height={220} />
+                                <Card.Img variant="top" src="/images/course.jpg" width="100%" height={160} />
                                 <Card.Body>
                                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">CS1234 React JS</Card.Title>
                                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
@@ -26,7 +26,7 @@ export default function Dashboard() {
                         <Card>
                             <Link to="/Kambaz/Courses/2345/Home"
                                 className="wd-dashboard-course-link text-decoration-none text-dark">
-                                <Card.Img variant="top" src="/images/courselogo.jpg" width="80%" height={220} />
+                                <Card.Img variant="top" src="/images/course.jpg" width="100%" height={160} />
                                 <Card.Body>
                                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">CS2345 Node.js Backend</Card.Title>
                                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
@@ -41,7 +41,7 @@ export default function Dashboard() {
                         <Card>
                             <Link to="/Kambaz/Courses/3456/Home"
                                 className="wd-dashboard-course-link text-decoration-none text-dark">
-                                <Card.Img variant="top" src="/images/courselogo.jpg" width="80%" height={220} />
+                                <Card.Img variant="top" src="/images/course.jpg" width="100%" height={160} />
                                 <Card.Body>
                                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">CS3456 MongoDB</Card.Title>
                                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
@@ -56,7 +56,7 @@ export default function Dashboard() {
                         <Card>
                             <Link to="/Kambaz/Courses/4567/Home"
                                 className="wd-dashboard-course-link text-decoration-none text-dark">
-                                <Card.Img variant="top" src="/images/courselogo.jpg" width="80%" height={220} />
+                                <Card.Img variant="top" src="/images/course.jpg" width="80%" height={160} />
                                 <Card.Body>
                                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">CS4567 Express.js</Card.Title>
                                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
@@ -70,7 +70,7 @@ export default function Dashboard() {
                         <Card>
                             <Link to="/Kambaz/Courses/5678/Home"
                                 className="wd-dashboard-course-link text-decoration-none text-dark">
-                                <Card.Img variant="top" src="/images/courselogo.jpg" width="80%" height={220} />
+                                <Card.Img variant="top" src="/images/course.jpg" width="80%" height={160} />
                                 <Card.Body>
                                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">CS5678 HTML & CSS</Card.Title>
                                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
@@ -85,7 +85,7 @@ export default function Dashboard() {
                         <Card>
                             <Link to="/Kambaz/Courses/6789/Home"
                                 className="wd-dashboard-course-link text-decoration-none text-dark">
-                                <Card.Img variant="top" src="/images/courselogo.jpg" width="80%" height={220} />
+                                <Card.Img variant="top" src="/images/course.jpg" width="80%" height={160} />
                                 <Card.Body>
                                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">CS6789 TypeScript</Card.Title>
                                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
@@ -100,7 +100,7 @@ export default function Dashboard() {
                         <Card>
                             <Link to="/Kambaz/Courses/7890/Home"
                                 className="wd-dashboard-course-link text-decoration-none text-dark">
-                                <Card.Img variant="top" src="/images/courselogo.jpg" width="80%" height={220} />
+                                <Card.Img variant="top" src="/images/course.jpg" width="80%" height={160} />
                                 <Card.Body>
                                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">CS7890 PostgreSQL</Card.Title>
                                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
@@ -115,7 +115,7 @@ export default function Dashboard() {
                         <Card>
                             <Link to="/Kambaz/Courses/8901/Home"
                                 className="wd-dashboard-course-link text-decoration-none text-dark">
-                                <Card.Img variant="top" src="/images/courselogo.jpg" width="80%" height={220} />
+                                <Card.Img variant="top" src="/images/course.jpg" width="80%" height={160} />
                                 <Card.Body>
                                     <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden">CS8901 DevOps Basics</Card.Title>
                                     <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>

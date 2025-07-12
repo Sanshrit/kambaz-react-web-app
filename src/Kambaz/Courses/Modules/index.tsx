@@ -18,33 +18,33 @@ export default function Modules() {
                          <BsGripVertical className="me-2 fs-3" />  LEARNING OBJECTIVES <LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                           <BsGripVertical className="me-2 fs-3" /> <text className="ms-5">Introduction to the course</text> <LessonControlButtons />
+                           <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Introduction to the course</span> <LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Learn what is Web Development</text><LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Learn what is Web Development</span><LessonControlButtons />
                         </ListGroup.Item>
 
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
                          <BsGripVertical className="me-2 fs-3" />   READING <LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Full Stack Developer - Chapter 1 - Introduction</text> <LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Full Stack Developer - Chapter 1 - Introduction</span> <LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Full Stack Developer - Chapter 2 - Creating User</text><LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Full Stack Developer - Chapter 2 - Creating User</span><LessonControlButtons />
                         </ListGroup.Item>
 
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
                            <BsGripVertical className="me-2 fs-3" /> SLIDES <LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Introduction to Web Development</text><LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Introduction to Web Development</span><LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Creating an HTTP server with Node.js</text><LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Creating an HTTP server with Node.js</span><LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Creating a React Application</text>
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Creating a React Application</span><LessonControlButtons />
                         </ListGroup.Item>
                     </ListGroup>
                 </ListGroup.Item>
@@ -56,31 +56,31 @@ export default function Modules() {
                             <BsGripVertical className="me-2 fs-3" />LEARNING OBJECTIVES<LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Understand HTML document structure</text><LessonControlButtons/>
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Understand HTML document structure</span><LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Learn basic HTML elements and attributes</text><LessonControlButtons/>
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Learn basic HTML elements and attributes</span><LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
                             <BsGripVertical className="me-2 fs-3" />READING<LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Full Stack Developer - Chapter 3 - HTML Basics</text><LessonControlButtons/>
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Full Stack Developer - Chapter 3 - HTML Basics</span><LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Full Stack Developer - Chapter 4 - HTML Elements</text><LessonControlButtons/>
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Full Stack Developer - Chapter 4 - HTML Elements</span><LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
                             <BsGripVertical className="me-2 fs-3" />SLIDES<LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">HTML Document Structure</text><LessonControlButtons/>
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">HTML Document Structure</span><LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Common HTML Elements</text><LessonControlButtons/>
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Common HTML Elements</span><LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">HTML Attributes and Properties</text><LessonControlButtons/>
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">HTML Attributes and Properties</span><LessonControlButtons/>
                         </ListGroup.Item>
                     </ListGroup>
                 </ListGroup.Item>
@@ -91,31 +91,31 @@ export default function Modules() {
                             <BsGripVertical className="me-2 fs-3" />LEARNING OBJECTIVES<LessonControlButtons/>
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Introduction to CSS and styling concepts</text><LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Introduction to CSS and styling concepts</span><LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                           <BsGripVertical className="me-2 fs-3" /> <text className="ms-5">Learn CSS selectors and properties</text><LessonControlButtons />    
+                           <BsGripVertical className="me-2 fs-3" /> <span className="ms-5">Learn CSS selectors and properties</span><LessonControlButtons />    
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
                             <BsGripVertical className="me-2 fs-3" />READING<LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Full Stack Developer - Chapter 5 - CSS Fundamentals</text><LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Full Stack Developer - Chapter 5 - CSS Fundamentals</span><LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                           <BsGripVertical className="me-2 fs-3" /> <text className="ms-5">Full Stack Developer - Chapter 6 - CSS Layout</text><LessonControlButtons />
+                           <BsGripVertical className="me-2 fs-3" /> <span className="ms-5">Full Stack Developer - Chapter 6 - CSS Layout</span><LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
                             <BsGripVertical className="me-2 fs-3" />SLIDES<LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Introduction to CSS</text><LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Introduction to CSS</span><LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">CSS Selectors and Specificity</text><LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">CSS Selectors and Specificity</span><LessonControlButtons />
                         </ListGroup.Item>
                         <ListGroup.Item className="wd-lesson p-3 ps-1">
-                            <BsGripVertical className="me-2 fs-3" /><text className="ms-5">Box Model and Layout Basics</text><LessonControlButtons />
+                            <BsGripVertical className="me-2 fs-3" /><span className="ms-5">Box Model and Layout Basics</span><LessonControlButtons />
                         </ListGroup.Item>
                     </ListGroup>
                 </ListGroup.Item>

@@ -3,12 +3,15 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import TOC from "./TOC";
 import Lab2 from "./Lab2";
 import Lab3 from "./Lab3";
+// import LandingPage from "../LandingPage";
 export default function Labs() {
   return (
     <div id = "wd-labs">
       <h1>Sanshrit Bakshi</h1>
       <h2>CS5610 Web Development Summer 2 - 2025</h2>
       <h1>Labs</h1>
+      {/* <LandingPage /> */}
+
       <TOC />
       <Routes>
         <Route path="/" element={<Navigate to="Lab1" />} />
