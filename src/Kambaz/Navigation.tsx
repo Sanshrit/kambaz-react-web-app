@@ -13,7 +13,7 @@ export default function KambazNavigation() {
       <ListGroup.Item id="wd-neu-link" target="_blank" action
         href="https://www.northeastern.edu/"
         className="bg-black border-0 text-center">
-        <img src="/images/NEU.png" width="75px" /></ListGroup.Item>
+        <img src="/images/NEU.png" width="75px" /></ListGroup.Item><br />
 
       <ListGroup.Item id="wd-account-link" to="/Kambaz/Account" as={Link}
         className="text-center border-0 bg-black text-white">
