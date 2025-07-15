@@ -5,12 +5,15 @@ export default function Signup() {
         <div id="wd-signup-screen">
             <h1>Sign up</h1>
             <Form.Control id="wd-username"
+                defaultValue={"Sanshrit"}
                 placeholder="username"
                 className="mb-2" />
             <Form.Control id="wd-password"
+                defaultValue={"password"}
                 placeholder="password" type="password"
                 className="mb-2" />
             <Form.Control id="wd-password-verify"
+                defaultValue={"password"}
                 placeholder="verify password" type="password"
                 className="mb-2" /><br />
             <Link id="wd-signup-btn"
@@ -22,11 +25,3 @@ export default function Signup() {
         </div>
     );
 }
-//     <h3>Sign up</h3>
-//     <input placeholder="username" className="wd-username" /><br />
-//     <input placeholder="password" type="password" className="wd-password" /><br />
-//     <input placeholder="verify password"
-//         type="password" className="wd-password-verify" /><br />
-//     <Link to="/Kambaz/Account/Profile" > Sign up </Link><br />
-//     <Link to="/Kambaz/Account/Signin" >Sign in</Link>
-// </div>

@@ -24,7 +24,7 @@ export default function Profile() {
         defaultValue="2000-01-01"
         type="date" className="mb-2" />
       <Form.Control id="wd-email"
-        defaultValue="alice@wonderland"
+        defaultValue="alice@wonderland.com"
         type="email" className="mb-2" />
       <Form.Select id="wd-role" className="mb-2">
         <option value="USER">User</option>

@@ -6,9 +6,11 @@ export default function Signin() {
       <h1>Sign in</h1>
       <Form.Control id="wd-username"
         placeholder="username"
+        defaultValue={"Sanshrit"}
         className="mb-2" />
       <Form.Control id="wd-password"
         placeholder="password" type="password"
+        defaultValue={"password"}
         className="mb-2" /><br />
       <Link id="wd-signin-btn"
         to="/Kambaz/Dashboard"
