@@ -34,7 +34,7 @@ export default function Assignments() {
                                     <span className="text-danger">Multiple Modules </span>| <b>Not Available until</b> May 13 at 12:00am | <b>Due</b> May 20 at 11:59pm | 100 pts
                                 </p>
                             </div>
-                            <div className="ms-auto">
+                            <div className="ms-auto text-nowrap">
                                 <AssignmentHandler />
                             </div>
                         </ListGroup.Item>
@@ -52,7 +52,7 @@ export default function Assignments() {
                                     <span className="text-danger">Multiple Modules </span>| <b>Not Available until</b> May 20 at 12:00am | <b>Due</b> May 27 at 11:59pm | 100 pts
                                 </p>
                             </div>
-                            <div className="ms-auto">
+                            <div className="ms-auto text-nowrap">
                                 <AssignmentHandler />
                             </div>
                         </ListGroup.Item>
@@ -70,7 +70,7 @@ export default function Assignments() {
                                     <span className="text-danger">Multiple Modules </span>| <b>Not Available until</b> May 27 at 12:00am | <b>Due</b> June 3 at 11:59pm | 100 pts
                                 </p>
                             </div>
-                            <div className="ms-auto">
+                            <div className="ms-auto text-nowrap">
                                 <AssignmentHandler />
                             </div>
                         </ListGroup.Item>

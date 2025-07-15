@@ -1,6 +1,5 @@
-import { Nav } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import { ButtonGroup, Button } from "react-bootstrap";
 export default function LandingPage() {
     return (
         <div className='d-flex flex-column justify-content-center align-items-center'>
@@ -11,20 +10,32 @@ export default function LandingPage() {
             </div>
             <br /><br /><br />
 
-            <div className='text-center'>
-                <h3 className="text-decoration-underline">Links</h3>
-                <Nav variant="pills">
-                    <Nav.Item>
-                        <Nav.Link to="/Labs" as={Link}>Labs</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link to="/Kambaz" as={Link}>Kambaz</Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link id="wd-github" href="https://github.com/Sanshrit/kambaz-react-web-app">My GitHub</Nav.Link>
-                    </Nav.Item>
-                </Nav>
-            </div>
+            <ButtonGroup className="w-50 shadow-sm">
+                <Button
+                    variant="outline-primary"
+                    as={Link as any}
+                    to="/Labs"
+                    className="py-3 fw-bold border-2"
+                >
+                    Labs
+                </Button>
+                <Button
+                    variant="outline-success"
+                    as={Link as any}
+                    to="/Kambaz"
+                    className="py-3 fw-bold border-2"
+                >
+                    Kambaz
+                </Button>
+                <Button
+                    variant="outline-dark"
+                    href="https://github.com/Sanshrit/kambaz-react-web-app"
+                    target="_blank"
+                    className="py-3 fw-bold border-2"
+                >
+                    My GitHub
+                </Button>
+            </ButtonGroup>
         </div>
     );
 }
