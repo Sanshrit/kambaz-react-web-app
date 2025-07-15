@@ -6,7 +6,7 @@ export default function LandingPage() {
             <div className='text-center'>
                 <h1>Sanshrit Bakshi</h1>
                 <h2 className='text-danger'>NUID: <span className="text-black">002407899</span></h2>
-                <h2>CS 5610 -Web Development - Summer 2 - 2025</h2>
+                <h2>CS 5610 - Web Development - Summer 2 - 2025</h2>
             </div>
             <br /><br /><br />
             <h2>Links</h2>
