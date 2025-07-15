@@ -83,7 +83,7 @@ The landing page should include the following:
                     <div className="border-dark border p-3 rounded w-100">
                         <Form.Group className="mb-3">
                             <Form.Label className="fw-bold mb-2">Assign to</Form.Label>
-                            <Form.Control type="text" defaultValue="Everyone" id="wd-assign-to"/>
+                            <Form.Control type="text" defaultValue="Everyone" id="wd-assign-to" />
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label className="fw-bold mb-2">Due</Form.Label>

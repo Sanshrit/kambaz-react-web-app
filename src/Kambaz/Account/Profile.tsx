@@ -31,7 +31,7 @@ export default function Profile() {
         <option value="ADMIN">Admin</option>
         <option value="FACULTY">Faculty</option>
         <option value="STUDENT">Student</option>
-      </Form.Select><br />
+      </Form.Select>
       <Link id="wd-signout-btn"
         to="/Kambaz/Account/Signin"
         className="btn btn-danger w-100 mb-2">
