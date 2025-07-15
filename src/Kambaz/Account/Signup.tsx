@@ -15,7 +15,7 @@ export default function Signup() {
             <Form.Control id="wd-password-verify"
                 defaultValue={"password"}
                 placeholder="verify password" type="password"
-                className="mb-2" /><br />
+                className="mb-2" />
             <Link id="wd-signup-btn"
                 to="/Kambaz/Account/Profile"
                 className="btn btn-primary w-100 mb-2">

@@ -11,7 +11,7 @@ export default function Signin() {
       <Form.Control id="wd-password"
         placeholder="password" type="password"
         defaultValue={"password"}
-        className="mb-2" /><br />
+        className="mb-2" />
       <Link id="wd-signin-btn"
         to="/Kambaz/Dashboard"
         className="btn btn-primary w-100 mb-2">
