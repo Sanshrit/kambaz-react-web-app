@@ -2,16 +2,20 @@ import CourseNavigation from "./Navigation";
 import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route, Navigate,useParams, useLocation } from "react-router";
 import Modules from "./Modules";
 import { FaAlignJustify } from "react-icons/fa";
 import Table from "./People/Table";
+import { courses } from "../Database";
 export default function Courses() {
+    const { cid } = useParams();
+    const course = courses.find((course) => course._id === cid);
+    const {pathname} = useLocation();
     return (
         <div id="wd-courses">
             <h2 className="text-danger">
                 <FaAlignJustify className="me-4 fs-4 mb-1" />
-                Course 1234
+                {course && course.name} &gt; {pathname.split("/")[4]}
             </h2>
             <hr />
             <div className="d-flex">
@@ -23,8 +27,8 @@ export default function Courses() {
                         <Route path="/" element={<Navigate to="Home" />} />
                         <Route path="Home" element={<Home />} />
                         <Route path="Modules" element={<Modules />} />
-                        {/* <Route path="Piazza" element={<h2>Piazza</h2>} /> */}
-                        {/* <Route path="Zoom" element={<h2>Zoom</h2>} /> */}
+                        <Route path="Piazza" element={<h2>Piazza</h2>} /> 
+                        <Route path="Zoom" element={<h2>Zoom</h2>} />
                         <Route path="Quizzes" element={<h2>Quizzes</h2>} />
                         <Route path="Assignments" element={<Assignments />} />
                         <Route path="Assignments/:aid" element={<AssignmentEditor />} />
