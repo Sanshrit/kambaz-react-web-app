@@ -87,7 +87,7 @@ export default function AssignmentEditor() {
                                     </Form.Group>
                                     <Form.Group className="mb-3">
                                         <Form.Label className="fw-bold mb-2">Due</Form.Label>
-                                        <Form.Control type="datetime-local" defaultValue="2024-09-20T23:59" id="wd-due-date" />
+                                        <Form.Control type="datetime-local" defaultValue={`${assignment.due}`} id="wd-due-date" />
                                     </Form.Group>
                                     <Row>
                                         <Col>
