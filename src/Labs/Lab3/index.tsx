@@ -1,4 +1,4 @@
-import { Container } from "react-bootstrap";
+import { Container, ListGroup } from "react-bootstrap";
 import Add from "./Add";
 import AddingAndRemovingToFromArrays from "./AddingAndRemovingToFromArrays";
 import ArrayIndexAndLength from "./ArrayIndexAndLength";
@@ -32,53 +32,63 @@ import TodoItem from "./todos/TodoItem";
 import TodoList from "./todos/TodoList";
 import VariablesAndConstants from "./VariablesAndConstants";
 import VariableTypes from "./VariableTypes";
+import { useSelector } from "react-redux";
 
 export default function Lab3() {
+  const { todos } = useSelector((state: any) => state.todosReducer);
   console.log('Hello World!');
   return (
     <Container>
-    <div id="wd-lab3">
-      <h3>Lab 3</h3>
-      <VariablesAndConstants />
-      <VariableTypes />
-      <BooleanVariables />
-      <IfElse />
-      <TernaryOperator />
-      <ConditionalOutputIfElse />
-      <ConditionalOutputInline /><hr />
-      <LegacyFunctions />
-      <ArrowFunctions />
-      <ImpliedReturn />
-      <TemplateLiterals />
-      <SimpleArrays />
-      <ArrayIndexAndLength />
-      <AddingAndRemovingToFromArrays />
-      <ForLoops />
-      <MapFunction />
-      <FindFunction />
-      <FindIndex />
-      <FilterFunction />
-      <JsonStringify />
-      <House />
-      <TodoItem />
-      <TodoList />
-      <Spreading />
-      <Destructing />
-      <FunctionDestructing />
-      <DestructingImports />
-      <Classes />
-      <Styles />
-      <Add a={3} b={4} />
-      <h4>Square of 4</h4>
-      <Square>4</Square>
-      <hr />
-      <Highlight>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
-        vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
-      </Highlight>
-      <hr />
-      <PathParameters/>
-    </div>
+      <div id="wd-lab3">
+        <h3>Lab 3</h3>
+        <ListGroup>
+          {todos.map((todo: any) => (
+            <ListGroup.Item key={todo.id}>
+              {todo.title}
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+        <hr />
+        <VariablesAndConstants />
+        <VariableTypes />
+        <BooleanVariables />
+        <IfElse />
+        <TernaryOperator />
+        <ConditionalOutputIfElse />
+        <ConditionalOutputInline /><hr />
+        <LegacyFunctions />
+        <ArrowFunctions />
+        <ImpliedReturn />
+        <TemplateLiterals />
+        <SimpleArrays />
+        <ArrayIndexAndLength />
+        <AddingAndRemovingToFromArrays />
+        <ForLoops />
+        <MapFunction />
+        <FindFunction />
+        <FindIndex />
+        <FilterFunction />
+        <JsonStringify />
+        <House />
+        <TodoItem />
+        <TodoList />
+        <Spreading />
+        <Destructing />
+        <FunctionDestructing />
+        <DestructingImports />
+        <Classes />
+        <Styles />
+        <Add a={3} b={4} />
+        <h4>Square of 4</h4>
+        <Square>4</Square>
+        <hr />
+        <Highlight>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipitratione eaque illo minus cum, saepe totam
+          vel nihil repellat nemo explicabo excepturi consectetur. Modi omnis minus sequi maiores, provident voluptates.
+        </Highlight>
+        <hr />
+        <PathParameters />
+      </div>
     </Container>
   );
 }

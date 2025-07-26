@@ -7,10 +7,13 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import AssignmentHandler from "./AssignmentHandler";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
-import * as db from "../../Database"
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { deleteAssignment } from "./reducer";
 export default function Assignments() {
     const { cid } = useParams();
-    const assignments = db.assignments;
+    const { assignments } = useSelector((state: any) => state.assignmentsReducer);
+    const dispatch = useDispatch();
     return (
         <div>
             <AssignmentControls />
@@ -38,7 +41,14 @@ export default function Assignments() {
                                         </p>
                                     </div>
                                     <div className="ms-auto text-nowrap">
-                                        <AssignmentHandler />
+                                        <AssignmentHandler
+                                            assignment={assignment}
+                                            deleteAssignment={(assignmentId) => {
+                                                if (window.confirm(`Are you sure you want to delete the assignment "${assignment.title}"?`)) {
+                                                    dispatch(deleteAssignment(assignmentId));
+                                                }
+                                            }}
+                                        />
                                     </div>
                                 </ListGroup.Item>
                             ))}
