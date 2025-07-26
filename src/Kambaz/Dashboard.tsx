@@ -1,47 +1,21 @@
 import { Row, Col, Card, Button, FormControl } from "react-bootstrap";
 // import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 import * as db from "./Database";
 import { Link } from "react-router-dom";
-export default function Dashboard({ courses, course, setCourse, addNewCourse,
-    deleteCourse, updateCourse }: {
-        courses: any[]; course: any; setCourse: (course: any) => void;
-        addNewCourse: () => void; deleteCourse: (course: any) => void;
-        updateCourse: () => void;
-    }) {
+import { addNewCourse, deleteCourse, updateCourse, setCourse } from "./Courses/reducer";
+export default function Dashboard() {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const { enrollments } = db;
-    const publishedCourses = courses.filter((courseItem) =>
+    const { courses, course } = useSelector((state: any) => state.coursesReducer)
+    const dispatch = useDispatch();
+    const publishedCourses = courses.filter((courseItem:any) =>
         enrollments.some(
             (enrollment) =>
                 enrollment.user === currentUser._id &&
                 enrollment.course === courseItem._id
         ));
     const isFaculty = currentUser?.role === "FACULTY";
-    // const [courses, setCourses] = useState<any[]>(db.courses);
-    // const [course, setCourse] = useState<any>({
-    //     _id: "0", name: "New Course", number: "New Number",
-    //     startDate: "2023-09-10", endDate: "2023-12-15",
-    //     image: "course.jpg", description: "New Description"
-    // });
-    // const addNewCourse = () => {
-    //     const newCourse = { ...course, _id: new Date().getTime().toString() };
-    //     setCourses([...courses, newCourse]);
-    // };
-    // const deleteCourse = (courseId: string) => {
-    //     setCourses(courses.filter(course => course._id !== courseId));
-    // };
-    // const updateCourse = () => {
-    //     setCourses(
-    //         courses.map((c) => {
-    //             if (c._id === course._id) {
-    //                 return course;
-    //             } else {
-    //                 return c;
-    //             }
-    //         })
-    //     );
-    // };
     return (
         <div id="wd-dashboard">
             <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
@@ -50,12 +24,12 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                     <h5>New Course
                         <Button variant="primary" className="float-end mb-2 me-2"
                             id="wd-add-new-course-click"
-                            onClick={addNewCourse}>Add</Button>
+                            onClick={() => dispatch(addNewCourse())}>Add</Button>
                         <Button variant="warning" className="float-end me-2 mb-2"
                             id="wd-update-course-click"
-                            onClick={updateCourse}>Update</Button>
-                        <FormControl value={course.name} className="mb-2" onChange={(e) => setCourse({ ...course, name: e.target.value })} />
-                        <FormControl as="textarea" value={course.description} rows={3} onChange={(e) => setCourse({ ...course, description: e.target.value })} />
+                            onClick={() => dispatch(updateCourse())}>Update</Button>
+                        <FormControl value={course.name} className="mb-2" onChange={(e) => dispatch(setCourse({ ...course, name: e.target.value }))} />
+                        <FormControl as="textarea" value={course.description} rows={3} onChange={(e) => dispatch(setCourse({ ...course, description: e.target.value }))} />
                     </h5><hr />
                 </>
             )}
@@ -64,7 +38,7 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
             <div id="wd-dashboard-courses">
                 <Row xs={1} md={5} className="g-4">
                     {
-                        publishedCourses.map((courseItem) => (
+                        publishedCourses.map((courseItem:any) => (
                             <Col className="wd-dashboard-course" style={{ width: "300px" }}>
                                 <Card>
                                     <Link to={`/Kambaz/Courses/${courseItem._id}/Home`} className="wd-dashboard-course-link text-decoration-none text-dark">
@@ -80,12 +54,12 @@ export default function Dashboard({ courses, course, setCourse, addNewCourse,
                                                     <Button id="wd-delete-course-click" variant="danger" className="float-end"
                                                         onClick={(event) => {
                                                             event.preventDefault();
-                                                            deleteCourse(courseItem._id);
+                                                            dispatch(deleteCourse(courseItem._id));
                                                         }}> Delete </Button>
                                                     <Button id="wd-edit-course-click" variant="warning" className="float-end me-2"
                                                         onClick={(event) => {
                                                             event.preventDefault();
-                                                            setCourse(courseItem);
+                                                            dispatch(setCourse(courseItem));
                                                         }}> Edit </Button>
                                                 </>
                                             )

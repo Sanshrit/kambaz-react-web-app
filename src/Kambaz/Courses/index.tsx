@@ -2,14 +2,16 @@ import CourseNavigation from "./Navigation";
 import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
-import { Routes, Route, Navigate,useParams, useLocation } from "react-router";
+import { Routes, Route, Navigate, useParams, useLocation } from "react-router";
 import Modules from "./Modules";
 import { FaAlignJustify } from "react-icons/fa";
 import Table from "./People/Table";
-export default function Courses({ courses }: { courses: any[]; }) {
+import { useSelector } from "react-redux";
+export default function Courses() {
     const { cid } = useParams();
-    const course = courses.find((course) => course._id === cid);
-    const {pathname} = useLocation();
+    const { courses } = useSelector((state: any) => state.coursesReducer);
+    const course = courses.find((c: any) => c._id === cid);
+    const { pathname } = useLocation();
     return (
         <div id="wd-courses">
             <h2 className="text-danger">
@@ -26,13 +28,13 @@ export default function Courses({ courses }: { courses: any[]; }) {
                         <Route path="/" element={<Navigate to="Home" />} />
                         <Route path="Home" element={<Home />} />
                         <Route path="Modules" element={<Modules />} />
-                        <Route path="Piazza" element={<h2>Piazza</h2>} /> 
+                        <Route path="Piazza" element={<h2>Piazza</h2>} />
                         <Route path="Zoom" element={<h2>Zoom</h2>} />
                         <Route path="Quizzes" element={<h2>Quizzes</h2>} />
                         <Route path="Assignments" element={<Assignments />} />
                         <Route path="Assignments/:aid" element={<AssignmentEditor />} />
                         <Route path="Grades" element={<h2>Grades</h2>} />
-                        <Route path="People" element={<Table/>} />
+                        <Route path="People" element={<Table />} />
                     </Routes>
                 </div>
             </div>

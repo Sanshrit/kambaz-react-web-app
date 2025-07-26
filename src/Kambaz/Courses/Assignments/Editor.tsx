@@ -13,14 +13,11 @@ export default function AssignmentEditor() {
     const dispatch = useDispatch();
     const { aid } = useParams();
     const { cid } = useParams();
-
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const isFaculty = currentUser?.role === "FACULTY";
     // const assignments = db.assignments;
     const { assignments, assignment } = useSelector((state: any) => state.assignmentsReducer);
     const isNewAssignment = aid === "new";
-    console.log("aid:", aid, "cid:", cid); // Add this line
-
-
-    console.log("assignments:", assignments, "assignment:", assignment);
 
     useEffect(() => {
         if (isNewAssignment) {
@@ -54,7 +51,7 @@ export default function AssignmentEditor() {
 
     return (
         <div>
-            <div id="wd-assignments-editor" className="px-5">
+            {isFaculty && (<div id="wd-assignments-editor" className="px-5">
                 <Form.Group className="mb-3" controlId="wd-name">
                     <Form.Label>
                         Assignment Name
@@ -166,7 +163,8 @@ export default function AssignmentEditor() {
                         </Link>
                     </Col>
                 </Row>
-            </div>
+            </div>)
+            }
 
         </div>
     );
