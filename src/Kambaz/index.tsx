@@ -5,6 +5,7 @@ import Account from "./Account";
 import KambazNavigation from "./Navigation";
 import Courses from "./Courses";
 import ProtectedRoute from "./Account/ProtectedRoute";
+import ProtectedCourseRoute from "./Account/ProtectedCourseRoute";
 export default function Kambaz() {
 
     return (
@@ -15,7 +16,7 @@ export default function Kambaz() {
                     <Route path="/" element={<Navigate to="Account" />} />
                     <Route path="/Account/*" element={<Account />} />
                     <Route path="/Dashboard/*" element={<ProtectedRoute> <Dashboard /></ProtectedRoute>} />
-                    <Route path="/Courses/:cid/*" element={<ProtectedRoute><Courses/></ProtectedRoute>} />
+                    <Route path="/Courses/:cid/*" element={<ProtectedCourseRoute><Courses/></ProtectedCourseRoute>} />
                     <Route path="/Calendar" element={<h1>Calendar</h1>} />
                     <Route path="/Inbox" element={<h1>Inbox</h1>} />
                 </Routes>

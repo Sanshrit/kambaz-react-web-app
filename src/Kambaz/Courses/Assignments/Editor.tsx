@@ -1,5 +1,5 @@
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
@@ -34,7 +34,7 @@ export default function AssignmentEditor() {
                 dispatch(setAssignment(existingAssignment));
             }
         }
-    }, [aid, cid, isNewAssignment, dispatch]);
+    }, [aid, cid, isNewAssignment, dispatch, assignments]);
 
     const handleSave = () => {
         if (isNewAssignment) {
@@ -51,7 +51,7 @@ export default function AssignmentEditor() {
 
     return (
         <div>
-            {isFaculty && (<div id="wd-assignments-editor" className="px-5">
+            {isFaculty && (<div id="wd-assignments-editor"  key={assignment._id || aid} className="px-5">
                 <Form.Group className="mb-3" controlId="wd-name">
                     <Form.Label>
                         Assignment Name
