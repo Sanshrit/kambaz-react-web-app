@@ -12,6 +12,8 @@ export default function Modules() {
     const { cid } = useParams();
     const [moduleName, setModuleName] = useState("");
     const { modules } = useSelector((state: any) => state.modulesReducer);
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const isFaculty = currentUser?.role === "FACULTY";
     const dispatch = useDispatch();
     return (
         <div>
@@ -46,7 +48,7 @@ export default function Modules() {
                                         {
                                             module.lessons.map((lesson: any) => (
                                                 <ListGroup.Item className="wd-lesson p-3 ps-1">
-                                                    <BsGripVertical className="me-2 fs-3" /> {lesson.name} <LessonControlButtons />
+                                                    <BsGripVertical className="me-2 fs-3" /> {lesson.name} {isFaculty && <LessonControlButtons />}
                                                 </ListGroup.Item>
                                             ))
                                         }
