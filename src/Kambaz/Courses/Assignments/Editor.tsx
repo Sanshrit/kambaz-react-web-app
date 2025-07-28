@@ -140,7 +140,7 @@ export default function AssignmentEditor() {
                                 <Col>
                                     <Form.Group className="mb-3">
                                         <Form.Label className="fw-bold mb-2">Until</Form.Label>
-                                        <Form.Control type="datetime-local" defaultValue={`${assignment.due}`} id="wd-available-until" onChange={(e) => dispatch(setAssignment({ ...assignment, availableUntil: e.target.value }))} />
+                                        <Form.Control type="datetime-local" value={`${assignment.until ? assignment.until : assignment.due}`} id="wd-available-until" onChange={(e) => dispatch(setAssignment({ ...assignment, until: e.target.value }))} />
                                     </Form.Group>
                                 </Col>
                             </Row>
