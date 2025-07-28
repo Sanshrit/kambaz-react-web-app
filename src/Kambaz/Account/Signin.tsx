@@ -21,12 +21,10 @@ export default function Signin() {
       <h1>Sign in</h1>
       <Form.Control id="wd-username"
         placeholder="username"
-        defaultValue={`${credentials.username}`}
         className="mb-2"
         onChange={(e) => setCredentials({ ...credentials, username: e.target.value })} />
       <Form.Control id="wd-password"
         placeholder="password" type="password"
-        defaultValue={"password"}
         className="mb-2"
         onChange={(e) => setCredentials({ ...credentials, password: e.target.value })} />
       {/* <Link id="wd-signin-btn"

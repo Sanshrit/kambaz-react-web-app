@@ -24,9 +24,16 @@ export default function AssignmentEditor() {
             // Clear form for new assignment
             dispatch(clearAssignment());
             dispatch(setAssignment({
-                ...assignment,
-                course: cid // Set the course ID for new assignments
+                _id: "",
+                title: "",
+                course: cid,
+                description: "",
+                points: 100,
+                due: "",
+                available: "",
+                until: "",
             }));
+
         } else {
             // Load existing assignment for editing
             const existingAssignment = assignments.find((a: any) => a._id === aid);
@@ -51,7 +58,7 @@ export default function AssignmentEditor() {
 
     return (
         <div>
-            {isFaculty && (<div id="wd-assignments-editor"  key={assignment._id || aid} className="px-5">
+            {isFaculty && (<div id="wd-assignments-editor" key={assignment._id || aid} className="px-5">
                 <Form.Group className="mb-3" controlId="wd-name">
                     <Form.Label>
                         Assignment Name
