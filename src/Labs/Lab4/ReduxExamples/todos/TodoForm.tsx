@@ -8,7 +8,7 @@ export default function TodoForm() {
         <ListGroup.Item>
             <div className="d-flex justify-content-between">
                 <FormControl className="w-50" value={todo.title}
-                    onChange={(e) => setTodo({ ...todo, title: e.target.value })} />
+                    onChange={(e) => dispatch(setTodo({ ...todo, title: e.target.value }))} />
                 <div>
                     <Button className="btn btn-success me-1"onClick={() => dispatch(addTodo(todo))}
                         id="wd-add-todo-click"> Add </Button>

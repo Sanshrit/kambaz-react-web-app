@@ -30,7 +30,7 @@ const assignmentsSlice = createSlice({
                 available: assignment.available,
                 until: assignment.until || assignment.due,
             };
-            state.assignments.push(newAssignment);
+            state.assignments = [...state.assignments, newAssignment] as any;
             
             state.assignment = { // Reset
                 _id: "",
