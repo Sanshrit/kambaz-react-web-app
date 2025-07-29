@@ -32,7 +32,7 @@ const assignmentsSlice = createSlice({
             };
             state.assignments = [...state.assignments, newAssignment] as any;
             
-            state.assignment = { // Reset
+            state.assignment = {
                 _id: "",
                 title: "",
                 course: "",
