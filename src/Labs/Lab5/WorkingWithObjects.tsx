@@ -62,7 +62,7 @@ export default function WorkingWithObjects() {
             <label htmlFor="wd-assignment-completed">{assignment.completed ? "Completed" : "Not Completed"}</label>
             <hr />
 
-            {/* MODULES */}
+            {/* MODULES */} 
             <h4>Retrieving Objects - Module</h4>
             <a id="wd-retrieve-module" className="btn btn-primary"
                 href={`${REMOTE_SERVER}/lab5/module`}>
