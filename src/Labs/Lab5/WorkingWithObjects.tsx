@@ -58,7 +58,7 @@ export default function WorkingWithObjects() {
                 id="wd-assignment-completed"
                 type="checkbox"
                 checked={assignment.completed}
-                onChange={(e) => setAssignment({ ...assignment, completed: !(assignment.completed) })} />
+                onChange={(e) => setAssignment({ ...assignment, completed: e.target.checked })} />
             <label htmlFor="wd-assignment-completed">{assignment.completed ? "Completed" : "Not Completed"}</label>
             <hr />
 
