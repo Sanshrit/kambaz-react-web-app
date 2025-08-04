@@ -9,14 +9,39 @@ import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { deleteAssignment } from "./reducer";
+import { setAssignments, deleteAssignment } from "./reducer";
+import * as assignmentsClient from "./client";
+import { useEffect } from "react";
 export default function Assignments() {
     const { cid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     const dispatch = useDispatch();
+    const fetchAllAssignments = async () => {
+        const modules = await assignmentsClient.fetchAssignmentsForCourse(cid as string);
+        dispatch(setAssignments(modules));
+    };
+    useEffect(() => {
+        fetchAllAssignments();
+    }, [cid]);
+
+    const handleDeleteAssignment = async (assignmentId: string, assignmentTitle: string) => {
+        if (window.confirm(`Are you sure you want to delete the assignment "${assignmentTitle}"?`)) {
+            try {
+                await assignmentsClient.deleteAssignment(assignmentId);
+
+                dispatch(deleteAssignment(assignmentId));
+
+                console.log("Assignment deleted successfully");
+            } catch (error) {
+                console.error("Error deleting assignment:", error);
+                alert("Failed to delete assignment. Please try again.");
+            }
+        }
+    }
     return (
         <div>
             <AssignmentControls />
+
             <br /><br /><br /><br /><br />
             <ListGroup className="rounded-0" id="wd-assignments">
                 <ListGroup.Item className="wd-module p-0 mb-5 fs-5 border-gray">
@@ -43,11 +68,8 @@ export default function Assignments() {
                                     <div className="ms-auto text-nowrap">
                                         <AssignmentHandler
                                             assignment={assignment}
-                                            deleteAssignment={(assignmentId) => {
-                                                if (window.confirm(`Are you sure you want to delete the assignment "${assignment.title}"?`)) {
-                                                    dispatch(deleteAssignment(assignmentId));
-                                                }
-                                            }}
+                                            deleteAssignment={() => handleDeleteAssignment(assignment._id, assignment.title)}
+
                                         />
                                     </div>
                                 </ListGroup.Item>

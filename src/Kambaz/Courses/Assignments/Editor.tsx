@@ -1,5 +1,5 @@
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
@@ -8,6 +8,7 @@ import {
     addAssignment,
     updateAssignment
 } from "./reducer";
+import * as assignmentsClient from "./client";
 export default function AssignmentEditor() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -43,13 +44,22 @@ export default function AssignmentEditor() {
         }
     }, [aid, cid, isNewAssignment, dispatch, assignments]);
 
-    const handleSave = () => {
-        if (isNewAssignment) {
-            dispatch(addAssignment(assignment));
-        } else {
-            dispatch(updateAssignment(assignment));
+    const handleSave = async () => {
+        try {
+            if (isNewAssignment) {
+                const newAssignment = await assignmentsClient.createAssignmentForCourse(cid as string, assignment);
+                dispatch(addAssignment(newAssignment));
+            } else {
+
+                const updatedAssignment = await assignmentsClient.updateAssignment(assignment);
+                dispatch(updateAssignment(updatedAssignment));
+            }
+
+            navigate(`/Kambaz/Courses/${cid}/Assignments`);
+        } catch (error) {
+            console.error(error);
+            alert("Failed to save assignment. Please try again.");
         }
-        navigate(`/Kambaz/Courses/${cid}/Assignments`);
     };
     const handleCancel = () => {
         dispatch(clearAssignment());
@@ -160,14 +170,12 @@ export default function AssignmentEditor() {
                 <hr />
                 <Row>
                     <Col className="text-end">
-                        <Link to={`/Kambaz/Courses/${cid}/Assignments`}>
-                            <Button variant="danger" size="lg" className="me-1 float-end" id="wd-add-module-btn" onClick={handleSave}>
-                                Save
-                            </Button>
-                            <Button variant="secondary" size="lg" className="me-1 float-end" id="wd-view-progress" onClick={handleCancel}>
-                                Cancel
-                            </Button>
-                        </Link>
+                        <Button variant="danger" size="lg" className="me-1 float-end" id="wd-add-module-btn" onClick={handleSave}>
+                            Save
+                        </Button>
+                        <Button variant="secondary" size="lg" className="me-1 float-end" id="wd-view-progress" onClick={handleCancel}>
+                            Cancel
+                        </Button>
                     </Col>
                 </Row>
             </div>)

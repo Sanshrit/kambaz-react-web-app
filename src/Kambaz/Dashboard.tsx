@@ -1,23 +1,37 @@
 import { Row, Col, Card, Button, FormControl } from "react-bootstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { addNewCourse, deleteCourse, updateCourse, setCourse } from "./Courses/reducer";
 import { addEnrollment, removeEnrollment } from "./Courses/People/reducer";
-export default function Dashboard() {
+import { setEnrollments } from "./Courses/People/reducer";
+import * as enrollmentsClient from "./Courses/People/client";
+export default function Dashboard(
+    { courses, course, setCourse, addNewCourse,
+        deleteCourse, updateCourse }: {
+            courses: any[]; course: any; setCourse: (course: any) => void;
+            addNewCourse: () => void; deleteCourse: (course: any) => void;
+            updateCourse: () => void;
+        }
+) {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
-    const { courses, course } = useSelector((state: any) => state.coursesReducer)
     const dispatch = useDispatch();
-    // const publishedCourses = courses.filter((courseItem: any) =>
-    //     enrollments.some(
-    //         (enrollment: any) =>
-    //             enrollment.user === currentUser._id &&
-    //             enrollment.course === courseItem._id
-    //     ));
     const isFaculty = currentUser?.role === "FACULTY";
     const isStudent = currentUser?.role === "STUDENT";
 
+    const fetchEnrollments = async () => {
+        if (currentUser?._id) {
+            try {
+                const serverEnrollments = await enrollmentsClient.fetchAllEnrollments();
+                dispatch(setEnrollments(serverEnrollments));
+            } catch (error) {
+                console.error("Error fetching enrollments:", error);
+            }
+        }
+    };
+    useEffect(() => {
+        fetchEnrollments();
+    }, [currentUser]);
 
     //Enrollment
     const [showAllCourses, setShowAllCourses] = useState(false);
@@ -36,19 +50,31 @@ export default function Dashboard() {
         );
     };
 
-    const toggleEnrollment = (courseId: any) => {
-        if (isUserEnrolled(courseId)) {
-            dispatch(removeEnrollment({ user: currentUser._id, course: courseId }));
-        } else {
-            dispatch(addEnrollment({ user: currentUser._id, course: courseId }));
+        const toggleEnrollment = async (courseId: string) => {
+        try {
+            if (isUserEnrolled(courseId)) {
+                // 1. Unenroll from server
+                await enrollmentsClient.unenrollUserFromCourse(currentUser._id, courseId);
+                
+                // 2. Update local Redux state
+                dispatch(removeEnrollment({ user: currentUser._id, course: courseId }));
+            
+            } else {
+                // 1. Enroll on server
+                const newEnrollment = await enrollmentsClient.enrollUserInCourse(currentUser._id, courseId);
+                
+                // 2. Update local Redux state
+                dispatch(addEnrollment(newEnrollment));
+            }
+        } catch (error) {
+            console.error("Error toggling enrollment:", error);
+            alert("Failed to update enrollment. Please try again.");
         }
     };
 
     const filteredCourses = showAllCourses
         ? courses
         : courses.filter((courseItem: any) => isUserEnrolled(courseItem._id));
-
-
 
     return (
         <div id="wd-dashboard">
@@ -58,12 +84,12 @@ export default function Dashboard() {
                     <h5>New Course
                         <Button variant="primary" className="float-end mb-2 me-2"
                             id="wd-add-new-course-click"
-                            onClick={() => dispatch(addNewCourse())}>Add</Button>
+                            onClick={addNewCourse}>Add</Button>
                         <Button variant="warning" className="float-end me-2 mb-2"
                             id="wd-update-course-click"
-                            onClick={() => dispatch(updateCourse())}>Update</Button>
-                        <FormControl value={course.name} className="mb-2" onChange={(e) => dispatch(setCourse({ ...course, name: e.target.value }))} />
-                        <FormControl as="textarea" value={course.description} rows={3} onChange={(e) => dispatch(setCourse({ ...course, description: e.target.value }))} />
+                            onClick={updateCourse}>Update</Button>
+                        <FormControl value={course.name} className="mb-2" onChange={(e) => setCourse({ ...course, name: e.target.value })} />
+                        <FormControl as="textarea" value={course.description} rows={3} onChange={(e) => setCourse({ ...course, description: e.target.value })} />
                     </h5><hr />
                 </>
             )}
@@ -96,12 +122,12 @@ export default function Dashboard() {
                                                     <Button id="wd-delete-course-click" variant="danger" className="float-end"
                                                         onClick={(event) => {
                                                             event.preventDefault();
-                                                            dispatch(deleteCourse(courseItem._id));
+                                                            deleteCourse(courseItem._id);
                                                         }}> Delete </Button>
                                                     <Button id="wd-edit-course-click" variant="warning" className="float-end me-2"
                                                         onClick={(event) => {
                                                             event.preventDefault();
-                                                            dispatch(setCourse(courseItem));
+                                                            setCourse(courseItem);
                                                         }}> Edit </Button>
                                                 </>
                                             )
