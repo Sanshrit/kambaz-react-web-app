@@ -17,6 +17,9 @@ export default function Session({ children }: { children: any }) {
     useEffect(() => {
         fetchProfile();
     }, []);
+    if(pending) {
+        return <div className="wd-loading">Loading...</div>;
+    }
     if (!pending) {
         return children;
     }
