@@ -6,10 +6,10 @@ import { Routes, Route, Navigate, useParams, useLocation } from "react-router";
 import Modules from "./Modules";
 import { FaAlignJustify } from "react-icons/fa";
 import Table from "./People/Table";
-import { useSelector } from "react-redux";
-export default function Courses() {
+// import { useSelector } from "react-redux";
+export default function Courses({ courses }: { courses: any[] }) {
     const { cid } = useParams();
-    const { courses } = useSelector((state: any) => state.coursesReducer);
+    // const { courses } = useSelector((state: any) => state.coursesReducer);
     const course = courses.find((c: any) => c._id === cid);
     const { pathname } = useLocation();
     return (

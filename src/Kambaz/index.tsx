@@ -80,7 +80,7 @@ export default function Kambaz() {
                                     deleteCourse={deleteCourse}
                                     updateCourse={updateCourse} />
                             </ProtectedRoute>} />
-                        <Route path="/Courses/:cid/*" element={<ProtectedCourseRoute><Courses /></ProtectedCourseRoute>} />
+                        <Route path="/Courses/:cid/*" element={<ProtectedCourseRoute><Courses courses={courses} /></ProtectedCourseRoute>} />
                         <Route path="/Calendar" element={<h1>Calendar</h1>} />
                         <Route path="/Inbox" element={<h1>Inbox</h1>} />
                     </Routes>
