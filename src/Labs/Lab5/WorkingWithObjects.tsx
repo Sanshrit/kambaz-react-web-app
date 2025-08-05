@@ -36,7 +36,7 @@ export default function WorkingWithObjects() {
             <FormControl className="w-75" id="wd-assignment-title"
                 defaultValue={assignment.title} onChange={(e) =>
                     setAssignment({ ...assignment, title: e.target.value })} />
-            <hr />
+            <br />
 
             <a id="wd-update-assignment-score"
                 className="btn btn-primary float-end"
@@ -46,7 +46,7 @@ export default function WorkingWithObjects() {
             <FormControl className="w-75" id="wd-assignment-score"
                 defaultValue={assignment.score} type="number"
                 onChange={(e) => setAssignment({ ...assignment, score: parseInt(e.target.value) })} />
-            <hr />
+            <br />
 
             <a id="wd-update-assignment-completed"
                 className="btn btn-primary float-end"
@@ -83,7 +83,7 @@ export default function WorkingWithObjects() {
             <FormControl className="w-75" id="wd-module-name"
                 defaultValue={module.name} onChange={(e) =>
                     setModule({ ...module, name: e.target.value })} />
-            <hr />
+            <br />
             <a id="wd-update-module-description"
                 className="btn btn-primary float-end"
                 href={`${MODULE_API_URL}/description/${module.description}`}>
