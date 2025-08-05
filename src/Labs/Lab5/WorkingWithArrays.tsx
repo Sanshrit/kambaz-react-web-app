@@ -49,7 +49,7 @@ export default function WorkingWithArrays() {
                 onChange={(e) => setTodo({ ...todo, id: e.target.value })} />
             <FormControl defaultValue={todo.title} className="w-50 float-start"
                 onChange={(e) => setTodo({ ...todo, title: e.target.value })} />
-            <br /><br /><hr />
+            <br /><br /><br />
 
             {/* On your own */}
             <a href={`${API}/${todo.id}/completed/${todo.completed}`} className="btn btn-primary float-end">
@@ -63,7 +63,7 @@ export default function WorkingWithArrays() {
                 checked={todo.completed}
                 onChange={(e) => setTodo({ ...todo, completed: e.target.checked })} />
             <label className="w-25 float-start me-2" htmlFor="wd-todo-completed">{todo.completed ? "Completed" : "Not Completed"}</label>
-            <br /><br /><hr />
+            <br /><br /><br />
 
             <a href={`${API}/${todo.id}/description/${todo.description}`} className="btn btn-primary float-end">
                 Update Todo Description</a>
