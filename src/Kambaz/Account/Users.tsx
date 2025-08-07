@@ -7,7 +7,7 @@ import { FaPlus } from "react-icons/fa6";
 export default function Users() {
     const [users, setUsers] = useState<any[]>([]);
     const [role, setRole] = useState("");
-    const [name, setName] = useState("");
+    const [_, setName] = useState("");
 
     const createUser = async () => {
         const user = await client.createUser({
