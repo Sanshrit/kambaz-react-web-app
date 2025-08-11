@@ -1,6 +1,6 @@
 import { Row, Col, Card, Button, FormControl } from "react-bootstrap";
 // import { useEffect, useState } from "react";
-import { useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 // import { UseDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 // import { addEnrollment, removeEnrollment } from "./Courses/People/reducer";
@@ -19,6 +19,7 @@ export default function Dashboard(
     // const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
     // const dispatch = useDispatch();
     const isFaculty = currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN";
+    const isAdmin = currentUser?.role === "ADMIN";
     // const isStudent = currentUser?.role === "STUDENT";
 
     // const fetchEnrollments = async () => {
@@ -102,15 +103,19 @@ export default function Dashboard(
                     onClick={() => setShowAllCourses(!showAllCourses)}>
                     {showAllCourses ? "Show Enrolled" : "Show All"}
                 </Button> */}
-                <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
-                    {enrolling ? "My Courses" : "All Courses"}
-                </button>
+                {
+                    !isAdmin && (
+                        <button onClick={() => setEnrolling(!enrolling)} className="float-end btn btn-primary" >
+                            {enrolling ? "My Courses" : "All Courses"}
+                        </button>
+                    )
+                }
             </h2> <hr />
             <div id="wd-dashboard-courses">
                 <Row xs={1} md={5} className="g-4">
                     {
                         courses.map((courseItem: any) => (
-                            <Col key={courseItem._id}  className="wd-dashboard-course" style={{ width: "300px" }}>
+                            <Col key={courseItem._id} className="wd-dashboard-course" style={{ width: "300px" }}>
                                 <Card style={{ width: "100%" }} className="h-100">
                                     <Link to={`/Kambaz/Courses/${courseItem._id}/Home`} className="wd-dashboard-course-link text-decoration-none text-dark">
                                         <Card.Img src={`/images/${courseItem.image}`} variant="top" width="100%" height={160} />
@@ -119,7 +124,7 @@ export default function Dashboard(
                                                 {courseItem.name} </Card.Title>
                                             <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
                                                 {courseItem.description}
-                                             </Card.Text>
+                                            </Card.Text>
                                             {(isFaculty || courseItem.enrolled) && (
                                                 <Button variant="primary">Go</Button>
                                             )}
@@ -139,7 +144,7 @@ export default function Dashboard(
                                             )
                                             }
                                             {
-                                                
+                                                !isAdmin && (
                                                     <>
                                                         {
                                                             <button onClick={(event) => {
@@ -150,8 +155,8 @@ export default function Dashboard(
                                                             </button>
                                                         }
                                                     </>
-                                                
-                                            }   
+                                                )
+                                            }
                                         </Card.Body>
                                     </Link>
                                 </Card>

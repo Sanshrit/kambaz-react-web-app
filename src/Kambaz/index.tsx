@@ -27,32 +27,32 @@ export default function Kambaz() {
     //         console.error(error);
     //     }
     // };
-    // const findCoursesForUser = async () => {
-    //     try {
-    //         const courses = await userClient.findCoursesForUser(currentUser._id);
-    //         const coursesWithEnrollmentFlag = courses.map((course: any) => ({
-    //             ...course,
-    //             // enrolled: true
-    //         })); ``
-    //         console.log("findCoursesForUser result:", courses);
-    //         setCourses(coursesWithEnrollmentFlag);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
     const findCoursesForUser = async () => {
         try {
-            console.log("=== DEBUGGING findCoursesForUser ===");
-            console.log("currentUser._id:", currentUser._id);
             const courses = await userClient.findCoursesForUser(currentUser._id);
-            console.log("API response - courses:", courses);
-            console.log("API response - courses length:", courses.length);
-            console.log("API response - first course:", courses[0]);
-            setCourses(courses); // Use courses directly - no mapping needed
+            const coursesWithEnrollmentFlag = courses.map((course: any) => ({
+                ...course,
+                enrolled: true
+            })); ``
+            console.log("findCoursesForUser result:", courses);
+            setCourses(coursesWithEnrollmentFlag);
         } catch (error) {
             console.error(error);
         }
     };
+    // const findCoursesForUser = async () => {
+    //     try {
+    //         console.log("=== DEBUGGING findCoursesForUser ===");
+    //         console.log("currentUser._id:", currentUser._id);
+    //         const courses = await userClient.findCoursesForUser(currentUser._id);
+    //         console.log("API response - courses:", courses);
+    //         console.log("API response - courses length:", courses.length);
+    //         console.log("API response - first course:", courses[0]);
+    //         setCourses(courses); // Use courses directly - no mapping needed
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
     // const fetchCourses = async () => {
     //     try {
