@@ -32,7 +32,7 @@ export default function Kambaz() {
             const courses = await userClient.findCoursesForUser(currentUser._id);
             const coursesWithEnrollmentFlag = courses.map((course: any) => ({
                 ...course,
-                enrolled: true
+                // enrolled: true
             })); ``
             console.log("findCoursesForUser result:", courses);
             setCourses(coursesWithEnrollmentFlag);
