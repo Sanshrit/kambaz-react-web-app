@@ -19,7 +19,7 @@ export default function Dashboard(
     // const { enrollments } = useSelector((state: any) => state.enrollmentsReducer);
     // const dispatch = useDispatch();
     const isFaculty = currentUser?.role === "FACULTY" || currentUser?.role === "ADMIN";
-    const isStudent = currentUser?.role === "STUDENT";
+    // const isStudent = currentUser?.role === "STUDENT";
 
     // const fetchEnrollments = async () => {
     //     if (currentUser?._id) {
