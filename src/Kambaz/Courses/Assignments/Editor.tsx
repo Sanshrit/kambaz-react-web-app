@@ -20,30 +20,65 @@ export default function AssignmentEditor() {
     const { assignments, assignment } = useSelector((state: any) => state.assignmentsReducer);
     const isNewAssignment = aid === "new";
 
-    useEffect(() => {
-        if (isNewAssignment) {
-            // Clear form for new assignment
-            dispatch(clearAssignment());
-            dispatch(setAssignment({
-                _id: "",
-                title: "",
-                course: cid,
-                description: "",
-                points: 100,
-                due: "",
-                available: "",
-                until: "",
-            }));
+    // useEffect(() => {
+    //     if (isNewAssignment) {
+    //         // Clear form for new assignment
+    //         dispatch(clearAssignment());
+    //         dispatch(setAssignment({
+    //             _id: "",
+    //             title: "",
+    //             course: cid,
+    //             description: "",
+    //             points: 100,
+    //             due: "",
+    //             available: "",
+    //             until: "",
+    //         }));
 
+    //     } else {
+    //         // Load existing assignment for editing
+    //         const existingAssignment = assignments.find((a: any) => a._id === aid);
+    //         if (existingAssignment) {
+    //             dispatch(setAssignment(existingAssignment));
+    //         }
+    //     }
+    // }, [aid, cid, isNewAssignment, dispatch, assignments]);
+useEffect(() => {
+    if (isNewAssignment) {
+        // Clear form for new assignment
+        dispatch(clearAssignment());
+        dispatch(setAssignment({
+            _id: "",
+            title: "",
+            course: cid,
+            description: "",
+            points: 100,
+            due: "",
+            available: "",
+            // until: "",  // REMOVE THIS LINE (not in schema)
+        }));
+    } else {
+        // Load existing assignment for editing
+        const existingAssignment = assignments.find((a: any) => a._id === aid);
+        if (existingAssignment) {
+            dispatch(setAssignment(existingAssignment));
         } else {
-            // Load existing assignment for editing
-            const existingAssignment = assignments.find((a: any) => a._id === aid);
-            if (existingAssignment) {
-                dispatch(setAssignment(existingAssignment));
-            }
+            // ADD THIS ELSE BLOCK - handles refresh case
+            fetchSingleAssignment();
         }
-    }, [aid, cid, isNewAssignment, dispatch, assignments]);
+    }
+}, [aid, cid, isNewAssignment, dispatch, assignments]);
 
+
+const fetchSingleAssignment = async () => {
+    try {
+        const assignment = await assignmentsClient.fetchAssignmentById(aid as string);
+        dispatch(setAssignment(assignment));
+    } catch (error) {
+        console.error("Error fetching assignment:", error);
+        navigate(`/Kambaz/Courses/${cid}/Assignments`);
+    }
+};
     const handleSave = async () => {
         try {
             if (isNewAssignment) {

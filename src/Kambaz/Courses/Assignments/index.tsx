@@ -16,12 +16,19 @@ export default function Assignments() {
     const { cid } = useParams();
     const { assignments } = useSelector((state: any) => state.assignmentsReducer);
     const dispatch = useDispatch();
-    const fetchAllAssignments = async () => {
-        const modules = await assignmentsClient.fetchAssignmentsForCourse(cid as string);
-        dispatch(setAssignments(modules));
+    console.log("Assignments from Redux:", assignments);
+    const fetchAssignmentsForCourse = async () => {
+        try {
+            const courseAssignments = await assignmentsClient.fetchAssignmentsForCourse(cid as string);
+            console.log("Raw assignments from server:", courseAssignments)
+            dispatch(setAssignments(courseAssignments));
+        } catch (error) {
+            console.error("Error fetching assignments:", error);
+        }
     };
-    useEffect(() => {
-        fetchAllAssignments();
+
+   useEffect(() => {
+        fetchAssignmentsForCourse();
     }, [cid]);
 
     const handleDeleteAssignment = async (assignmentId: string, assignmentTitle: string) => {

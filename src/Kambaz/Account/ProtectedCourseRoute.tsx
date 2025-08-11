@@ -42,7 +42,7 @@ export default function ProtectedCourseRoute({ children }: { children: any }) {
     return <Navigate to="/Kambaz/Account/Signin" replace />;
   }
 
-  if (currentUser.role === "FACULTY") {
+  if (currentUser.role === "FACULTY" || currentUser.role === "ADMIN") {
     return children;
   }
 
