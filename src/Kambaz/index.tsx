@@ -27,15 +27,24 @@ export default function Kambaz() {
     //         console.error(error);
     //     }
     // };
+    // const findCoursesForUser = async () => {
+    //     try {
+    //         const courses = await userClient.findCoursesForUser(currentUser._id);
+    //         const coursesWithEnrollmentFlag = courses.map((course: any) => ({
+    //             ...course,
+    //             // enrolled: true
+    //         })); ``
+    //         console.log("findCoursesForUser result:", courses);
+    //         setCourses(coursesWithEnrollmentFlag);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
     const findCoursesForUser = async () => {
         try {
             const courses = await userClient.findCoursesForUser(currentUser._id);
-            const coursesWithEnrollmentFlag = courses.map((course: any) => ({
-                ...course,
-                // enrolled: true
-            })); ``
             console.log("findCoursesForUser result:", courses);
-            setCourses(coursesWithEnrollmentFlag);
+            setCourses(courses); // Use courses directly - no mapping needed
         } catch (error) {
             console.error(error);
         }
