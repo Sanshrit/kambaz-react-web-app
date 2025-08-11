@@ -42,8 +42,12 @@ export default function Kambaz() {
     // };
     const findCoursesForUser = async () => {
         try {
+            console.log("=== DEBUGGING findCoursesForUser ===");
+            console.log("currentUser._id:", currentUser._id);
             const courses = await userClient.findCoursesForUser(currentUser._id);
-            console.log("findCoursesForUser result:", courses);
+            console.log("API response - courses:", courses);
+            console.log("API response - courses length:", courses.length);
+            console.log("API response - first course:", courses[0]);
             setCourses(courses); // Use courses directly - no mapping needed
         } catch (error) {
             console.error(error);
