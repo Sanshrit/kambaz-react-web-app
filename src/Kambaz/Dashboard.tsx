@@ -1,11 +1,6 @@
 import { Row, Col, Card, Button, FormControl } from "react-bootstrap";
-// import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-// import { UseDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-// import { addEnrollment, removeEnrollment } from "./Courses/People/reducer";
-// import { setEnrollments } from "./Courses/People/reducer";
-// import * as enrollmentsClient from "./Courses/People/client";
 export default function Dashboard(
     { courses, course, setCourse, addNewCourse,
         deleteCourse, updateCourse, enrolling, setEnrolling, updateEnrollment }: {
@@ -78,6 +73,15 @@ export default function Dashboard(
     // const filteredCourses = showAllCourses
     //     ? courses
     //     : courses.filter((courseItem: any) => isUserEnrolled(courseItem._id));
+    console.log("Courses being rendered:", courses);
+    courses.forEach((course, index) => {
+        console.log(`Course ${index}:`, {
+            _id: course._id,
+            name: course.name,
+            image: course.image,
+            enrolled: course.enrolled
+        });
+    });
 
     return (
         <div id="wd-dashboard">

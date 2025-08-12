@@ -19,50 +19,19 @@ export default function Kambaz() {
     const { currentUser } = useSelector((state: any) => state.accountReducer);
     const [enrolling, setEnrolling] = useState<boolean>(false);
     const dispatch = useDispatch();
-    // const fetchCourses = async () => {
-    //     try {
-    //         const courses = await userClient.findMyCourses();
-    //         setCourses(courses);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
+
     const findCoursesForUser = async () => {
         try {
             const courses = await userClient.findCoursesForUser(currentUser._id);
             const coursesWithEnrollmentFlag = courses.map((course: any) => ({
                 ...course,
                 enrolled: true
-            })); ``
-            console.log("findCoursesForUser result:", courses);
+            }));
             setCourses(coursesWithEnrollmentFlag);
         } catch (error) {
             console.error(error);
         }
     };
-    // const findCoursesForUser = async () => {
-    //     try {
-    //         console.log("=== DEBUGGING findCoursesForUser ===");
-    //         console.log("currentUser._id:", currentUser._id);
-    //         const courses = await userClient.findCoursesForUser(currentUser._id);
-    //         console.log("API response - courses:", courses);
-    //         console.log("API response - courses length:", courses.length);
-    //         console.log("API response - first course:", courses[0]);
-    //         setCourses(courses); // Use courses directly - no mapping needed
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
-    // const fetchCourses = async () => {
-    //     try {
-    //         // Fetch ALL available courses instead of just enrolled courses
-    //         const courses = await courseClient.fetchAllCourses();
-    //         setCourses(courses);
-    //     } catch (error) {
-    //         console.error("Error fetching courses:", error);
-    //     }
-    // };
 
     const fetchCourses = async () => {
         try {
@@ -70,8 +39,6 @@ export default function Kambaz() {
             const enrolledCourses = await userClient.findCoursesForUser(
                 currentUser._id
             );
-            console.log("All courses:", allCourses);
-            console.log("Enrolled courses:", enrolledCourses);
             const courses = allCourses.map((course: any) => {
                 if (enrolledCourses.find((c: any) => c._id === course._id)) {
                     return { ...course, enrolled: true };
@@ -79,7 +46,6 @@ export default function Kambaz() {
                     return course;
                 }
             });
-            console.log("Final courses with enrollment flags:", courses);
             setCourses(courses);
         } catch (error) {
             console.error(error);
