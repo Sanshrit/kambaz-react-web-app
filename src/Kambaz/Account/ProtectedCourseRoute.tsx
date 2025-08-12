@@ -13,6 +13,9 @@ export default function ProtectedCourseRoute({ children }: { children: any }) {
   if (currentUser.role === "FACULTY" || currentUser.role === "ADMIN") {
     return children;
   }
+    if (!enrollments || enrollments.length === 0) {
+    return <div className="text-center p-4">Loading course access...</div>;
+  }
 
   const isEnrolled = enrollments.some(
     (enrollment: any) =>
