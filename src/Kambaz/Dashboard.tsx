@@ -148,7 +148,7 @@ export default function Dashboard(
                                             )
                                             }
                                             {
-                                                !isAdmin && (
+                                                enrolling && !isAdmin && (
                                                     <>
                                                         {
                                                             <button onClick={(event) => {
