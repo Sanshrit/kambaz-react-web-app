@@ -1,66 +1,89 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import * as client from "./client";
+import * as usersClient from "../../Account/client";
+import { setQuiz } from "./reducer";
+import { setCurrentUser } from "../../Account/reducer";
 
 export default function TakeQuiz() {
     const { cid, qid } = useParams();
     const navigate = useNavigate();
-    const [quiz, setQuiz] = useState<any>(null);
+    const dispatch = useDispatch();
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const { quizzes } = useSelector((state: any) => state.quizzesReducer);
+
+    const [quiz, setQuizLocal] = useState<any>(null);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [userAnswers, setUserAnswers] = useState<{ [key: string]: string }>({});
     const [isCompleted, setIsCompleted] = useState(false);
     const [score, setScore] = useState(0);
     const [timeRemaining, setTimeRemaining] = useState<number | null>(null);
-    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const [loading, setLoading] = useState(true);
+    const [attemptNumber, setAttemptNumber] = useState(1);
+    const [canTakeQuiz, setCanTakeQuiz] = useState(true);
+    const [lastAttempt, setLastAttempt] = useState<any>(null);
+
     const isPreview = currentUser?.role === "FACULTY" || currentUser?.role === "TA";
 
-    // Mock quiz data
+    // Load quiz data
     useEffect(() => {
-        const mockQuiz = {
-            _id: qid,
-            title: "Q1 - HTML",
-            course: cid,
-            description: "<p>This quiz covers basic HTML concepts. Good luck!</p>",
-            points: 30,
-            timeLimit: 40, // minutes
-            questions: [
-                {
-                    _id: "q1",
-                    title: "Question 1",
-                    content: "<p>An HTML <strong>label</strong> element can be associated with an HTML <strong>input</strong> element by setting their <strong>id</strong> attributes to the same value.</p><p>The resulting effect is that when you click on the <strong>label</strong> text, the <strong>input</strong> element receives focus as if you had click on the <strong>input</strong> element itself</p>",
-                    questionType: "true false",
-                    points: 1,
-                    correctAnswer: "true",
-                    possibleAnswers: ["true", "false"]
-                },
-                {
-                    _id: "q2",
-                    title: "Question 2",
-                    content: "<p>Which HTML tag is used to create a hyperlink?</p>",
-                    questionType: "multiple choice",
-                    points: 1,
-                    correctAnswer: "<a>",
-                    possibleAnswers: ["<link>", "<a>", "<href>", "<url>"]
-                },
-                {
-                    _id: "q3",
-                    title: "Question 3",
-                    content: "<p>What does HTML stand for?</p>",
-                    questionType: "fill in blank",
-                    points: 2,
-                    correctAnswer: "HyperText Markup Language",
-                    possibleAnswers: ["HyperText Markup Language", "Hypertext Markup Language", "hypertext markup language"]
-                }
-            ]
-        };
-        setQuiz(mockQuiz);
+        const loadQuiz = async () => {
+            try {
+                setLoading(true);
+                let currentQuizData = null; // Single variable for quiz reference
 
-        // Set timer for actual quiz attempts (not preview)
-        if (!isPreview && mockQuiz.timeLimit) {
-            setTimeRemaining(mockQuiz.timeLimit * 60); // Convert to seconds
+                // Try to find quiz in Redux store first
+                const existingQuiz = quizzes.find((q: any) => q._id === qid);
+
+                if (existingQuiz) {
+                    setQuizLocal(existingQuiz);
+                    dispatch(setQuiz(existingQuiz));
+                    currentQuizData = existingQuiz;
+                } else {
+                    // Fetch from API if not in store
+                    const fetchedQuiz = await client.findQuiz(cid as string, qid as string);
+                    setQuizLocal(fetchedQuiz[0]); // API returns array
+                    dispatch(setQuiz(fetchedQuiz[0]));
+                    currentQuizData = fetchedQuiz[0]; // Use the same variable
+                }
+
+                // For students (not preview), check attempt status
+                if (!isPreview && currentUser?._id && currentQuizData) {
+                    const userAttempts = currentUser.quizAttempts?.filter((attempt: any) =>
+                        attempt.course === cid && attempt.quiz === qid) || [];
+
+                    if (userAttempts.length > 0) {
+                        const lastAttemptData = userAttempts[userAttempts.length - 1];
+                        setLastAttempt(lastAttemptData);
+                        setAttemptNumber(userAttempts.length + 1);
+
+                        // Check if student can take another attempt - now uses currentQuizData
+                        if (userAttempts.length >= (currentQuizData.attemptsAllowed || 1)) {
+                            setCanTakeQuiz(false);
+                        }
+                    }
+                }
+
+            } catch (error) {
+                console.error("Failed to load quiz:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (cid && qid) {
+            loadQuiz();
         }
-    }, [cid, qid, isPreview]);
+    }, [cid, qid, currentUser, isPreview, quizzes, dispatch]);
+
+    // Set timer when quiz loads (only for students)
+    useEffect(() => {
+        if (quiz && !isPreview && quiz.timeLimit && quiz.minutes && canTakeQuiz) {
+            setTimeRemaining(quiz.minutes * 60); // Convert minutes to seconds
+        }
+    }, [quiz, isPreview, canTakeQuiz]);
 
     // Timer countdown (only for student attempts)
     useEffect(() => {
@@ -85,22 +108,29 @@ export default function TakeQuiz() {
             [questionId]: answer
         }));
 
-        // For student attempts, save to database/localStorage
+        // For student attempts, just log locally (no database save until final submission)
         if (!isPreview) {
-            // TODO: Save answer to database or localStorage
-            console.log(`Saving answer for question ${questionId}: ${answer}`);
+            console.log(`Answer selected for question ${questionId}: ${answer}`);
+            // Individual answers are NOT saved to database
+            // Only final quiz submission creates an attempt record
         }
     };
-
     const calculateScore = () => {
         if (!quiz?.questions) return 0;
 
         let totalScore = 0;
         quiz.questions.forEach((question: any) => {
             const userAnswer = userAnswers[question._id];
+            console.log("Question:", question.title);
+            console.log("User Answer:", userAnswer);
+            console.log("Possible Answers:", question.possibleAnswers);
+            console.log("Correct Answer:", question.correctAnswer);
             if (userAnswer && question.possibleAnswers.some((correct: string) =>
                 correct.toLowerCase() === userAnswer.toLowerCase())) {
+                console.log("✅ Correct! Adding points:", question.points);
                 totalScore += question.points;
+            } else {
+                console.log("❌ Incorrect or no answer");
             }
         });
         return totalScore;
@@ -111,21 +141,50 @@ export default function TakeQuiz() {
         setScore(finalScore);
         setIsCompleted(true);
 
-        // For student attempts, save final submission to database
-        if (!isPreview) {
+        // For student attempts, save final submission to user document
+        if (!isPreview && currentUser?._id) {
             try {
-                // TODO: Submit quiz attempt to backend
-                console.log('Submitting quiz attempt:', {
-                    quizId: qid,
-                    courseId: cid,
-                    answers: userAnswers,
-                    score: finalScore,
-                    completedAt: new Date()
+                // Prepare answers in the format expected by your existing system
+                const formattedAnswers = Object.keys(userAnswers).map(questionId => {
+                    const question = quiz.questions.find((q: any) => q._id === questionId);
+                    return {
+                        qid: questionId,
+                        userAnswer: userAnswers[questionId],
+                        correctAnswer: question.correctAnswer,
+                        points: question.points,
+                        type: question.questionType,
+                        possibleAnswers: question.possibleAnswers
+                    };
                 });
-                // await submitQuizAttempt(cid, qid, userAnswers, finalScore);
+
+                // Create attempt object matching your existing format
+                const attemptData = {
+                    course: cid,
+                    user: currentUser._id,
+                    grade: finalScore,
+                    quiz: qid,
+                    answers: formattedAnswers,
+                    time: new Date().toLocaleString(),
+                    attemptNumber: attemptNumber,
+                    completedAt: new Date(),
+                    timeSpent: quiz.minutes ? (quiz.minutes * 60 - (timeRemaining || 0)) : null
+                };
+
+                // Update user document with new quiz attempt
+                const updatedUser = {
+                    ...currentUser,
+                    quizAttempts: [...(currentUser.quizAttempts || []), attemptData]
+                };
+
+                // Save to database and update Redux
+                await usersClient.updateUser(updatedUser);
+                dispatch(setCurrentUser(updatedUser));
+
+                console.log('Quiz attempt saved successfully:', attemptData);
+
             } catch (error) {
                 console.error('Failed to submit quiz:', error);
-                // Handle error - maybe show error message
+                alert('Failed to save your quiz attempt. Please try again.');
             }
         }
     };
@@ -152,8 +211,66 @@ export default function TakeQuiz() {
         return `${minutes}:${secs.toString().padStart(2, '0')}`;
     };
 
-    if (!quiz) {
+    if (loading) {
         return <div className="m-5">Loading quiz...</div>;
+    }
+
+    if (!quiz) {
+        return <div className="m-5">Quiz not found.</div>;
+    }
+
+    // Check if student has exhausted attempts
+    if (!canTakeQuiz && !isPreview) {
+        return (
+            <div className="container mt-5">
+                <div className="row justify-content-center">
+                    <div className="col-md-8">
+                        <div className="alert alert-warning">
+                            <h4>Quiz Attempts Exhausted</h4>
+                            <p>You have used all {quiz.attemptsAllowed || 1} allowed attempts for this quiz.</p>
+                            <p>Your final score: <strong>{lastAttempt?.score || 0} out of {quiz.points} points</strong></p>
+                            <button
+                                className="btn btn-primary"
+                                onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes`)}
+                            >
+                                Back to Quizzes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Check if quiz has questions
+    if (!quiz.questions || quiz.questions.length === 0) {
+        return (
+            <div className="container mt-5">
+                <div className="row justify-content-center">
+                    <div className="col-md-8">
+                        <div className="alert alert-info">
+                            <h4>No Questions Available</h4>
+                            <p>This quiz does not have any questions yet.</p>
+                            {isPreview && (
+                                <button
+                                    className="btn btn-warning"
+                                    onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/editor`)}
+                                >
+                                    <FaEdit className="me-2" />
+                                    Add Questions
+                                </button>
+                            )}
+                            <button
+                                className="btn btn-secondary ms-2"
+                                onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes`)}
+                            >
+                                Back to Quizzes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     const currentQuestion = quiz.questions[currentQuestionIndex];
@@ -175,6 +292,11 @@ export default function TakeQuiz() {
                             ) : (
                                 <div className="alert alert-success mb-4">
                                     <strong>Quiz Submitted!</strong> Your answers have been saved.
+                                    {lastAttempt && (
+                                        <div className="mt-2">
+                                            This was attempt {attemptNumber} of {quiz.attemptsAllowed || 1}.
+                                        </div>
+                                    )}
                                 </div>
                             )}
 
@@ -212,9 +334,11 @@ export default function TakeQuiz() {
                                                 <div className="mt-2">
                                                     <strong>Your Answer:</strong> {userAnswer || "Not answered"}
                                                 </div>
-                                                <div>
-                                                    <strong>Correct Answer:</strong> {question.correctAnswer}
-                                                </div>
+                                                {(quiz.showCorrectAnswers || isPreview) && (
+                                                    <div>
+                                                        <strong>Correct Answer:</strong> {question.correctAnswer}
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
                                     );
@@ -240,12 +364,23 @@ export default function TakeQuiz() {
                                         </button>
                                     </>
                                 ) : (
-                                    <button
-                                        className="btn btn-primary"
-                                        onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes`)}
-                                    >
-                                        Back to Quizzes
-                                    </button>
+                                    <>
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes`)}
+                                        >
+                                            Back to Quizzes
+                                        </button>
+                                        {/* Show retake option if attempts remaining */}
+                                        {canTakeQuiz && attemptNumber > 1 && (
+                                            <button
+                                                className="btn btn-warning"
+                                                onClick={() => window.location.reload()}
+                                            >
+                                                Take Again (Attempt {attemptNumber + 1})
+                                            </button>
+                                        )}
+                                    </>
                                 )}
                             </div>
                         </div>
@@ -262,30 +397,44 @@ export default function TakeQuiz() {
                     <div className="border rounded p-4">
                         <div className="d-flex justify-content-between align-items-center mb-4">
                             <h2>{quiz.title}</h2>
-                            {!isPreview && timeRemaining !== null && (
+                            {!isPreview && timeRemaining !== null && canTakeQuiz && (
                                 <div className={`alert ${timeRemaining < 300 ? 'alert-danger' : 'alert-info'} py-2 px-3 mb-0`}>
                                     <strong>Time Remaining: {formatTime(timeRemaining)}</strong>
                                 </div>
                             )}
                         </div>
 
-                        {/* Preview warning or student instructions */}
+                        {/* Status Messages */}
                         {isPreview ? (
                             <div className="alert alert-danger mb-4">
                                 <i className="fas fa-exclamation-triangle me-2"></i>
-                                This is a preview of the published version of the quiz
+                                This is a preview of the quiz. Student answers will not be saved.
+                            </div>
+                        ) : canTakeQuiz ? (
+                            <div className="alert alert-info mb-4">
+                                <strong>Attempt {attemptNumber} of {quiz.attemptsAllowed || 1}</strong>
+                                {lastAttempt && (
+                                    <div className="mt-2">
+                                        Last attempt score: {lastAttempt.score} out of {quiz.points} points
+                                    </div>
+                                )}
+                                <div className="mt-2">
+                                    <strong>Instructions:</strong> Answer all questions and click Submit when finished.
+                                </div>
                             </div>
                         ) : (
-                            <div className="alert alert-info mb-4">
-                                <strong>Instructions:</strong> Answer all questions and click Submit when finished.
+                            <div className="alert alert-warning mb-4">
+                                <strong>Maximum attempts reached.</strong> You cannot take this quiz again.
                             </div>
                         )}
 
                         {/* Quiz Instructions */}
-                        <div className="mb-4">
-                            <h4>Quiz Instructions</h4>
-                            <div dangerouslySetInnerHTML={{ __html: quiz.description }} />
-                        </div>
+                        {quiz.description && (
+                            <div className="mb-4">
+                                <h4>Quiz Instructions</h4>
+                                <div dangerouslySetInnerHTML={{ __html: quiz.description }} />
+                            </div>
+                        )}
 
                         {/* Current Question */}
                         <div className="border rounded p-0 mb-4">
@@ -294,7 +443,7 @@ export default function TakeQuiz() {
                                 <h5 className="mb-0">Question {currentQuestionIndex + 1}</h5>
                                 <span className="text-muted">{currentQuestion.points} pts</span>
                             </div>
-                        
+
                             {/* Question Content */}
                             <div className="p-4">
                                 <div className="mb-4">
@@ -380,7 +529,7 @@ export default function TakeQuiz() {
                                             className="btn btn-success"
                                             onClick={handleSubmitQuiz}
                                         >
-                                            Submit Quiz
+                                            {isPreview ? "Finish Preview" : "Submit Quiz"}
                                         </button>
                                     ) : (
                                         <button
@@ -398,19 +547,27 @@ export default function TakeQuiz() {
                         <div className="border rounded p-3 mb-4">
                             <h6>Questions</h6>
                             <div className="d-flex flex-column gap-1">
-                                {quiz.questions.map((question: any, index: number) => (
-                                    <div
-                                        key={question._id}
-                                        className="text-danger"
-                                        style={{ cursor: 'pointer', padding: '4px 0' }}
-                                        onClick={() => goToQuestion(index)}
-                                    >
-                                        Question {index + 1}
-                                    </div>
-                                ))}
+                                {quiz.questions.map((question: any, index: number) => {
+                                    const isAnswered = userAnswers[question._id];
+
+                                    return (
+                                        <div
+                                            key={question._id}
+                                            className={`d-flex align-items-center ${index === currentQuestionIndex ? 'text-primary fw-bold' : 'text-danger'
+                                                }`}
+                                            style={{ cursor: 'pointer', padding: '4px 0' }}
+                                            onClick={() => goToQuestion(index)}
+                                        >
+                                            {/* Progress Indicator */}
+                                            {isAnswered && (
+                                                <span className="text-success me-2">●</span>
+                                            )}
+                                            Question {index + 1}
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
-
 
                         {/* Bottom Actions */}
                         <div className="d-flex justify-content-between">
