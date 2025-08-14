@@ -7,6 +7,11 @@ import Modules from "./Modules";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
 import { useEffect, useState } from "react";
+import Quizzes from "./Quizzes";
+import QuizDetails from "./Quizzes/QuizDetails";
+import QuizEditor from "./Quizzes/QuizEditor";
+import TakeQuiz from "./Quizzes/TakeQuiz";
+// import Attempt from "./Quizzes/Attempt";
 import * as client from "./client";
 // import { useSelector } from "react-redux";
 export default function Courses({ courses }: { courses: any[] }) {
@@ -64,7 +69,11 @@ export default function Courses({ courses }: { courses: any[] }) {
                         <Route path="Modules" element={<Modules />} />
                         <Route path="Piazza" element={<h2>Piazza</h2>} />
                         <Route path="Zoom" element={<h2>Zoom</h2>} />
-                        <Route path="Quizzes" element={<h2>Quizzes</h2>} />
+                        <Route path="Quizzes" element={<Quizzes />} />
+                        <Route path="Quizzes/:qid" element={<QuizDetails />} />
+                        <Route path="Quizzes/:qid/editor" element={<QuizEditor />} />
+                        <Route path="Quizzes/:qid/start" element={<TakeQuiz />} />
+                        {/* <Route path="Quizzes/:qid/attempt/:attemptNumber" element={<Attempt />} /> */}
                         <Route path="Assignments" element={<Assignments />} />
                         <Route path="Assignments/:aid" element={<AssignmentEditor />} />
                         <Route path="Grades" element={<h2>Grades</h2>} />

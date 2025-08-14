@@ -121,48 +121,64 @@ export default function Dashboard(
                         courses.map((courseItem: any) => (
                             <Col key={courseItem._id} className="wd-dashboard-course" style={{ width: "300px" }}>
                                 <Card style={{ width: "100%" }} className="h-100">
-                                    <Link to={`/Kambaz/Courses/${courseItem._id}/Home`} className="wd-dashboard-course-link text-decoration-none text-dark">
-                                        <Card.Img src={`/images/${courseItem.image}`} variant="top" width="100%" height={160} />
-                                        <Card.Body className="card-body">
-                                            <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden text-truncate">
-                                                {courseItem.name} </Card.Title>
-                                            <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
-                                                {courseItem.description}
-                                            </Card.Text>
-                                            {(isFaculty || courseItem.enrolled) && (
-                                                <Button variant="primary">Go</Button>
-                                            )}
-                                            {isFaculty && (
-                                                <>
-                                                    <Button id="wd-delete-course-click" variant="danger" className="float-end"
-                                                        onClick={(event) => {
-                                                            event.preventDefault();
-                                                            deleteCourse(courseItem._id);
-                                                        }}> Delete </Button>
-                                                    <Button id="wd-edit-course-click" variant="warning" className="float-end me-2"
-                                                        onClick={(event) => {
-                                                            event.preventDefault();
-                                                            setCourse(courseItem);
-                                                        }}> Edit </Button>
-                                                </>
-                                            )
-                                            }
-                                            {
-                                                enrolling && !isAdmin && (
+                                    {/* Conditional Link/Div wrapper */}
+                                    {(isFaculty || (!enrolling && courseItem.enrolled)) ? (
+                                        <Link to={`/Kambaz/Courses/${courseItem._id}/Home`} className="wd-dashboard-course-link text-decoration-none text-dark">
+                                            <Card.Img src={`/images/${courseItem.image}`} variant="top" width="100%" height={160} />
+                                            <Card.Body className="card-body">
+                                                <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden text-truncate">
+                                                    {courseItem.name}
+                                                </Card.Title>
+                                                <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
+                                                    {courseItem.description}
+                                                </Card.Text>
+                                                {(isFaculty || courseItem.enrolled) && (
+                                                    <Button variant="primary">Go</Button>
+                                                )}
+                                                {isFaculty && (
                                                     <>
-                                                        {
-                                                            <button onClick={(event) => {
+                                                        <Button id="wd-delete-course-click" variant="danger" className="float-end"
+                                                            onClick={(event) => {
                                                                 event.preventDefault();
-                                                                updateEnrollment(courseItem._id, !courseItem.enrolled);
-                                                            }} className={`btn ${courseItem.enrolled ? "btn-danger" : "btn-success"} w-100 mt-2`} >
-                                                                {courseItem.enrolled ? "Unenroll" : "Enroll"}
-                                                            </button>
-                                                        }
+                                                                deleteCourse(courseItem._id);
+                                                            }}> Delete </Button>
+                                                        <Button id="wd-edit-course-click" variant="warning" className="float-end me-2"
+                                                            onClick={(event) => {
+                                                                event.preventDefault();
+                                                                setCourse(courseItem);
+                                                            }}> Edit </Button>
                                                     </>
-                                                )
-                                            }
-                                        </Card.Body>
-                                    </Link>
+                                                )}
+                                            </Card.Body>
+                                        </Link>
+                                    ) : (
+                                        <div className="wd-dashboard-course-link text-decoration-none text-dark" style={{ cursor: 'not-allowed'}}>
+                                            <Card.Img src={`/images/${courseItem.image}`} variant="top" width="100%" height={160} />
+                                            <Card.Body className="card-body">
+                                                <Card.Title className="wd-dashboard-course-title text-nowrap overflow-hidden text-truncate">
+                                                    {courseItem.name}
+                                                </Card.Title>
+                                                <Card.Text className="wd-dashboard-course-description overflow-hidden" style={{ height: "100px" }}>
+                                                    {courseItem.description}
+                                                </Card.Text>
+                                                <div className="text-center text-muted mt-2">
+                                                    <small>View mode - use enrollment button below</small>
+                                                </div>
+                                            </Card.Body>
+                                        </div>
+                                    )}
+
+                                    {/* Move enrollment button OUTSIDE the conditional - always visible when needed */}
+                                    {enrolling && !isAdmin && (
+                                        <div className="p-2"> {/* Add padding wrapper */}
+                                            <button onClick={(event) => {
+                                                event.preventDefault();
+                                                updateEnrollment(courseItem._id, !courseItem.enrolled);
+                                            }} className={`btn ${courseItem.enrolled ? "btn-danger" : "btn-success"} w-100`}>
+                                                {courseItem.enrolled ? "Unenroll" : "Enroll"}
+                                            </button>
+                                        </div>
+                                    )}
                                 </Card>
                             </Col>
                         ))}
