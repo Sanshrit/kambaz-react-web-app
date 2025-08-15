@@ -11,8 +11,8 @@ import Quizzes from "./Quizzes";
 import QuizDetails from "./Quizzes/QuizDetails";
 import QuizEditor from "./Quizzes/QuizEditor";
 import TakeQuiz from "./Quizzes/TakeQuiz";
-// import Attempt from "./Quizzes/Attempt";
 import * as client from "./client";
+import ViewAttempt from "./Quizzes/ViewAttempt";
 // import { useSelector } from "react-redux";
 export default function Courses({ courses }: { courses: any[] }) {
     const { cid } = useParams();
@@ -73,7 +73,7 @@ export default function Courses({ courses }: { courses: any[] }) {
                         <Route path="Quizzes/:qid" element={<QuizDetails />} />
                         <Route path="Quizzes/:qid/editor" element={<QuizEditor />} />
                         <Route path="Quizzes/:qid/take" element={<TakeQuiz />} />
-                        {/* <Route path="Quizzes/:qid/attempt/:attemptNumber" element={<Attempt />} /> */}
+                        <Route path="Quizzes/:qid/attempts/:attemptNumber" element={<ViewAttempt />} />
                         <Route path="Assignments" element={<Assignments />} />
                         <Route path="Assignments/:aid" element={<AssignmentEditor />} />
                         <Route path="Grades" element={<h2>Grades</h2>} />
