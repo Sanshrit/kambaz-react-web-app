@@ -23,7 +23,7 @@ export default function ViewAttempt() {
 
                 // Load quiz data
                 const fetchedQuiz = await client.findQuiz(cid as string, qid as string);
-                setQuiz(fetchedQuiz[0]);
+                setQuiz(fetchedQuiz[0]); 
 
                 // Find the specific attempt
                 if (currentUser?.quizAttempts && attemptNumber) {
