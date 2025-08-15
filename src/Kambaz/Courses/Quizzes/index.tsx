@@ -68,7 +68,24 @@ export default function Quizzes() {
     };
 
     // Filter quizzes for current course
-    const courseQuizzes = quizzes.filter((quiz: any) => quiz.course === cid);
+    const courseQuizzes = quizzes
+    .filter((quiz: any) => quiz.course === cid)
+    .sort((a: any, b: any) => {
+        // Handle cases where availableFrom might be null/undefined
+        if (!a.availableFrom && !b.availableFrom) return 0;
+        if (!a.availableFrom) return 1; // Put items without date at the end
+        if (!b.availableFrom) return -1;
+        
+        const dateA = new Date(a.availableFrom);
+        const dateB = new Date(b.availableFrom);
+        
+        // Check for invalid dates
+        if (isNaN(dateA.getTime()) && isNaN(dateB.getTime())) return 0;
+        if (isNaN(dateA.getTime())) return 1;
+        if (isNaN(dateB.getTime())) return -1;
+        
+        return dateA.getTime() - dateB.getTime();
+    });
     // Separate published and unpublished for student view
     const publishedQuizzes = courseQuizzes.filter((quiz: any) => quiz.status === "published");
 

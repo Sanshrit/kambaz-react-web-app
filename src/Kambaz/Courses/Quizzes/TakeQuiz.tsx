@@ -101,6 +101,19 @@ export default function TakeQuiz() {
             return () => clearInterval(timer);
         }
     }, [timeRemaining, isCompleted, isPreview]);
+    useEffect(() => {
+    // Recalculate attempt number when currentUser.quizAttempts changes
+    if (currentUser?.quizAttempts && cid && qid) {
+        const userAttempts = currentUser.quizAttempts.filter((attempt: any) =>
+            attempt.course === cid && attempt.quiz === qid
+        );
+        
+        const newAttemptNumber = userAttempts.length + 1;
+        setAttemptNumber(newAttemptNumber);
+        
+        console.log("Recalculated attempt number:", newAttemptNumber, "based on attempts:", userAttempts.length);
+    }
+}, [currentUser?.quizAttempts, cid, qid]);
 
     const handleAnswerChange = (questionId: string, answer: string) => {
         setUserAnswers(prev => ({
@@ -121,18 +134,26 @@ export default function TakeQuiz() {
         let totalScore = 0;
         quiz.questions.forEach((question: any) => {
             const userAnswer = userAnswers[question._id];
-            console.log("Question:", question.title);
-            console.log("User Answer:", userAnswer);
-            console.log("Possible Answers:", question.possibleAnswers);
-            console.log("Correct Answer:", question.correctAnswer);
-            if (userAnswer && question.possibleAnswers.some((correct: string) =>
-                correct.toLowerCase() === userAnswer.toLowerCase())) {
-                console.log("✅ Correct! Adding points:", question.points);
-                totalScore += question.points;
+
+            if (!userAnswer) return;
+
+            let isCorrect = false;
+
+            if (question.questionType === "fill in blank") {
+                // Fill in blank: Check against all possible answers
+                isCorrect = question.possibleAnswers.some((correct: string) =>
+                    correct.toLowerCase() === userAnswer.toLowerCase()
+                );
             } else {
-                console.log("❌ Incorrect or no answer");
+                // Multiple choice & True/False: Check against single correct answer
+                isCorrect = question.correctAnswer.toLowerCase() === userAnswer.toLowerCase();
+            }
+
+            if (isCorrect) {
+                totalScore += question.points;
             }
         });
+
         return totalScore;
     };
 
@@ -318,8 +339,18 @@ export default function TakeQuiz() {
                                 <h4>Question Review</h4>
                                 {quiz.questions.map((question: any, index: number) => {
                                     const userAnswer = userAnswers[question._id];
-                                    const isCorrect = question.possibleAnswers.some((correct: string) =>
-                                        correct.toLowerCase() === (userAnswer || "").toLowerCase());
+                                    const isCorrect = (() => {
+                                        if (!userAnswer) return false;
+
+                                        if (question.questionType === "fill in blank") {
+                                            return question.possibleAnswers.some((correct: string) =>
+                                                correct.toLowerCase() === userAnswer.toLowerCase()
+                                            );
+                                        } else {
+                                            // MCQ & True/False: Check against single correct answer
+                                            return question.correctAnswer.toLowerCase() === userAnswer.toLowerCase();
+                                        }
+                                    })();
 
                                     return (
                                         <div key={question._id} className="card mb-3">
@@ -459,23 +490,29 @@ export default function TakeQuiz() {
                                                 <input
                                                     className="form-check-input"
                                                     type="radio"
+                                                    id={`${currentQuestion._id}-true`}
                                                     name={`question-${currentQuestion._id}`}
                                                     value="true"
                                                     checked={userAnswers[currentQuestion._id] === "true"}
                                                     onChange={(e) => handleAnswerChange(currentQuestion._id, e.target.value)}
                                                 />
-                                                <label className="form-check-label">True</label>
+                                                <label 
+                                                className="form-check-label"
+                                                htmlFor={`${currentQuestion._id}-true`}
+                                                >True</label>
                                             </div>
                                             <div className="form-check">
                                                 <input
                                                     className="form-check-input"
                                                     type="radio"
+                                                    id={`${currentQuestion._id}-false`}
                                                     name={`question-${currentQuestion._id}`}
                                                     value="false"
                                                     checked={userAnswers[currentQuestion._id] === "false"}
                                                     onChange={(e) => handleAnswerChange(currentQuestion._id, e.target.value)}
                                                 />
-                                                <label className="form-check-label">False</label>
+                                                <label className="form-check-label"
+                                                htmlFor={`${currentQuestion._id}-false`}>False</label>
                                             </div>
                                         </div>
                                     )}
@@ -489,11 +526,13 @@ export default function TakeQuiz() {
                                                         className="form-check-input"
                                                         type="radio"
                                                         name={`question-${currentQuestion._id}`}
+                                                        id={`${currentQuestion._id}-option-${index}`}
                                                         value={answer}
                                                         checked={userAnswers[currentQuestion._id] === answer}
                                                         onChange={(e) => handleAnswerChange(currentQuestion._id, e.target.value)}
                                                     />
-                                                    <label className="form-check-label">{answer}</label>
+                                                    <label className="form-check-label"
+                                                    htmlFor={`${currentQuestion._id}-option-${index}`}>{answer}</label>
                                                 </div>
                                             ))}
                                         </div>

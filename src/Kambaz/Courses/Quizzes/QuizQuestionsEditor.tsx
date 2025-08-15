@@ -122,13 +122,24 @@ export default function QuizQuestionsEditor() {
     };
 
 
-    const cancelEdit = () => {
+const cancelEdit = () => {
+    const questionBeingEdited = currentQuestions.find((q: any) => q._id === questionId);
+    
+    // If it's a new question (not saved to database yet), remove it completely
+    if (questionBeingEdited && !quiz.questions?.find((q: any) => q._id === questionId)) {
+        // Remove from local state completely
+        setCurrentQuestions((prevQuestions: any) => 
+            prevQuestions.filter((cq: any) => cq._id !== questionId)
+        );
+    } else {
+        // If it's an existing question, just stop editing
         setCurrentQuestions((prevQuestions: any) =>
             prevQuestions.map((cq: any) =>
                 cq._id === questionId ? { ...cq, editing: false } : cq
             )
         );
-    };
+    }
+};
 
     const deleteQuestion = async (questionId: string) => {
         try {
