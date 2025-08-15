@@ -208,7 +208,7 @@ export default function QuizDetails() {
                         <thead>
                             <tr className="table-light">
                                 <th>Attempt Number</th>
-                                <th>Time Taken</th>
+                                <th>Date Taken</th>
                                 <th>Grade</th>
                             </tr>
                         </thead>
@@ -223,7 +223,8 @@ export default function QuizDetails() {
                                             Attempt {index + 1}
                                         </Link>
                                     </td>
-                                    <td>{attempt.timeSpent ? `${Math.round(attempt.timeSpent / 60)} minutes` : "N/A"}</td>
+                                    {/* <td>{attempt.timeSpent ? `${Math.round(attempt.timeSpent / 60)} minutes` : "N/A"}</td> */}
+                                    <td>{attempt.time || (attempt.completedAt ? formatDate(attempt.completedAt) : "N/A")}</td>
                                     <td>{attempt.score || attempt.grade || 0} / {quiz.points}</td>
                                 </tr>
                             ))}
