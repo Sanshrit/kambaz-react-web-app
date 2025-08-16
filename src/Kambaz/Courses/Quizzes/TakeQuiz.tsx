@@ -59,12 +59,27 @@ export default function TakeQuiz() {
                         setLastAttempt(lastAttemptData);
                         setAttemptNumber(userAttempts.length + 1);
 
-                        // Check if student can take another attempt - now uses currentQuizData
-                        if (userAttempts.length >= (currentQuizData.attemptsAllowed || 1)) {
+                        // Check if student can take another attempt - but allow one more if they just completed
+                        if (userAttempts.length >= (currentQuizData.attemptsAllowed || 1) && !isCompleted) {
                             setCanTakeQuiz(false);
                         }
                     }
                 }
+                // if (!isPreview && currentUser?._id && currentQuizData) {
+                //     const userAttempts = currentUser.quizAttempts?.filter((attempt: any) =>
+                //         attempt.course === cid && attempt.quiz === qid) || [];
+                //
+                //     if (userAttempts.length > 0) {
+                //         const lastAttemptData = userAttempts[userAttempts.length - 1];
+                //         setLastAttempt(lastAttemptData);
+                //         setAttemptNumber(userAttempts.length + 1);
+                //
+                //         // Check if student can take another attempt - now uses currentQuizData
+                //         if (userAttempts.length >= (currentQuizData.attemptsAllowed || 1)) {
+                //             setCanTakeQuiz(false);
+                //         }
+                //     }
+                // }
 
             } catch (error) {
                 console.error("Failed to load quiz:", error);
@@ -103,17 +118,30 @@ export default function TakeQuiz() {
     }, [timeRemaining, isCompleted, isPreview]);
     useEffect(() => {
     // Recalculate attempt number when currentUser.quizAttempts changes
-    if (currentUser?.quizAttempts && cid && qid) {
+    if (currentUser?.quizAttempts && cid && qid && !isCompleted) {
         const userAttempts = currentUser.quizAttempts.filter((attempt: any) =>
             attempt.course === cid && attempt.quiz === qid
         );
-        
+
         const newAttemptNumber = userAttempts.length + 1;
         setAttemptNumber(newAttemptNumber);
-        
+
         console.log("Recalculated attempt number:", newAttemptNumber, "based on attempts:", userAttempts.length);
     }
-}, [currentUser?.quizAttempts, cid, qid]);
+}, [currentUser?.quizAttempts, cid, qid, isCompleted]);
+//     useEffect(() => {
+//     // Recalculate attempt number when currentUser.quizAttempts changes
+//     if (currentUser?.quizAttempts && cid && qid) {
+//         const userAttempts = currentUser.quizAttempts.filter((attempt: any) =>
+//             attempt.course === cid && attempt.quiz === qid
+//         );
+//
+//         const newAttemptNumber = userAttempts.length + 1;
+//         setAttemptNumber(newAttemptNumber);
+//
+//         console.log("Recalculated attempt number:", newAttemptNumber, "based on attempts:", userAttempts.length);
+//     }
+// }, [currentUser?.quizAttempts, cid, qid]);
 
     const handleAnswerChange = (questionId: string, answer: string) => {
         setUserAnswers(prev => ({
@@ -201,7 +229,14 @@ export default function TakeQuiz() {
                 await usersClient.updateUser(updatedUser);
                 dispatch(setCurrentUser(updatedUser));
 
+                // Update local lastAttempt state with the current attempt
+                setLastAttempt(attemptData);
+
                 console.log('Quiz attempt saved successfully:', attemptData);
+                // await usersClient.updateUser(updatedUser);
+                // dispatch(setCurrentUser(updatedUser));
+                //
+                // console.log('Quiz attempt saved successfully:', attemptData);
 
             } catch (error) {
                 console.error('Failed to submit quiz:', error);
@@ -241,7 +276,8 @@ export default function TakeQuiz() {
     }
 
     // Check if student has exhausted attempts
-    if (!canTakeQuiz && !isPreview) {
+    // if (!canTakeQuiz && !isPreview) {
+    if (!canTakeQuiz && !isPreview && !isCompleted) {
         return (
             <div className="container mt-5">
                 <div className="row justify-content-center">
@@ -249,7 +285,7 @@ export default function TakeQuiz() {
                         <div className="alert alert-warning">
                             <h4>Quiz Attempts Exhausted</h4>
                             <p>You have used all {quiz.attemptsAllowed || 1} allowed attempts for this quiz.</p>
-                            <p>Your final score: <strong>{lastAttempt?.score || 0} out of {quiz.points} points</strong></p>
+                            <p>Your final score: <strong>{lastAttempt?.grade || 0} out of {quiz.points} points</strong></p>
                             <button
                                 className="btn btn-primary"
                                 onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes`)}
@@ -307,15 +343,15 @@ export default function TakeQuiz() {
 
                             {/* Preview vs Student completion messages */}
                             {isPreview ? (
-                                <div className="alert alert-info mb-4">
+                                <div className="alert mb-4" style={{ backgroundColor: '#f8d7da', color: 'black', border: '1px solid #f5c6cb' }}>
                                     <strong>Preview Completed!</strong> This is how students would see their results.
                                 </div>
                             ) : (
-                                <div className="alert alert-success mb-4">
+                                <div className="alert mb-4" style={{ backgroundColor: '#ffe6e6', color: '#000000', border: '1px solid #ffcccc' }}>
                                     <strong>Quiz Submitted!</strong> Your answers have been saved.
                                     {lastAttempt && (
                                         <div className="mt-2">
-                                            This was attempt {attemptNumber} of {quiz.attemptsAllowed || 1}.
+                                            This was attempt {attemptNumber - 1} of {quiz.attemptsAllowed || 1}.
                                         </div>
                                     )}
                                 </div>
@@ -381,7 +417,12 @@ export default function TakeQuiz() {
                                 {isPreview ? (
                                     <>
                                         <button
-                                            className="btn btn-warning"
+                                            className="btn"
+                                            style={{
+                                                backgroundColor: '#dc3545',
+                                                color: 'white',
+                                                border: '1px solid #dc3545'
+                                            }}
                                             onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/editor`)}
                                         >
                                             <FaEdit className="me-2" />
@@ -403,14 +444,28 @@ export default function TakeQuiz() {
                                             Back to Quizzes
                                         </button>
                                         {/* Show retake option if attempts remaining */}
-                                        {canTakeQuiz && attemptNumber > 1 && (
+                                        {canTakeQuiz && attemptNumber <= (quiz.attemptsAllowed || 1) && (
                                             <button
-                                                className="btn btn-warning"
+                                                className="btn"
+                                                style={{
+                                                    backgroundColor: '#dc3545',
+                                                    color: 'white',
+                                                    border: '1px solid #dc3545'
+                                                }}
                                                 onClick={() => window.location.reload()}
                                             >
-                                                Take Again (Attempt {attemptNumber + 1})
+                                                Take Again (Attempt {attemptNumber})
                                             </button>
                                         )}
+                                        {/*/!* Show retake option if attempts remaining *!/*/}
+                                        {/*{canTakeQuiz && attemptNumber > 1 && (*/}
+                                        {/*    <button*/}
+                                        {/*        className="btn btn-warning"*/}
+                                        {/*        onClick={() => window.location.reload()}*/}
+                                        {/*    >*/}
+                                        {/*        Take Again (Attempt {attemptNumber + 1})*/}
+                                        {/*    </button>*/}
+                                        {/*)}*/}
                                     </>
                                 )}
                             </div>
@@ -592,9 +647,13 @@ export default function TakeQuiz() {
                                     return (
                                         <div
                                             key={question._id}
-                                            className={`d-flex align-items-center ${index === currentQuestionIndex ? 'text-primary fw-bold' : 'text-danger'
-                                                }`}
-                                            style={{ cursor: 'pointer', padding: '4px 0' }}
+                                            className={`d-flex align-items-center ${index === currentQuestionIndex ? 'fw-bold' : 'text-danger'
+                                            }`}
+                                            style={{
+                                                cursor: 'pointer',
+                                                padding: '4px 0',
+                                                color: index === currentQuestionIndex ? 'black' : undefined
+                                            }}
                                             onClick={() => goToQuestion(index)}
                                         >
                                             {/* Progress Indicator */}
@@ -612,10 +671,15 @@ export default function TakeQuiz() {
                         <div className="d-flex justify-content-between">
                             {isPreview && (
                                 <button
-                                    className="btn btn-outline-warning"
+                                    className="btn"
+                                    style={{
+                                        backgroundColor: '#dc3545',
+                                        color: 'white',
+                                        border: '1px solid #dc3545'
+                                    }}
                                     onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/editor`)}
                                 >
-                                    <FaEdit className="me-2" />
+                                    <FaEdit className="me-2"/>
                                     Keep Editing This Quiz
                                 </button>
                             )}

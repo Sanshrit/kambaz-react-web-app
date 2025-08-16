@@ -1,5 +1,5 @@
 import { useParams } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import QuizDetailsEditor from "./QuizDetailsEditor";
 import QuizQuestionsEditor from "./QuizQuestionsEditor";
@@ -18,6 +18,8 @@ export default function QuizEditor() {
     const { quizzes, quiz } = useSelector((state: any) => state.quizzesReducer);
     const isFaculty = currentUser?.role === "FACULTY" || currentUser?.role === "TA";
     const isNewQuiz = qid === "new";
+
+    const [activeTab, setActiveTab] = useState('details');
 
     useEffect(() => {
         console.log("Course ID:", cid);
@@ -107,62 +109,98 @@ export default function QuizEditor() {
 
             {/* Bootstrap Tabs */}
             <div>
-                <ul className="nav nav-tabs mt-5" id="wd-quiz-editor-tabs" role="tablist">
-                    <li className="nav-item" role="presentation">
-                        <button 
-                            className="nav-link active" 
-                            id="details-tab" 
-                            data-bs-toggle="tab"
-                            data-bs-target="#details" 
-                            type="button" 
-                            role="tab" 
-                            aria-controls="details" 
-                            aria-selected="true"
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                        <button
+                            className={`nav-link ${activeTab === 'details' ? 'active' : ''}`}
+                            style={{
+                                color: activeTab === 'details' ? 'black' : '#dc3545'
+                            }}
+                            onClick={() => setActiveTab('details')}
                         >
                             Details
                         </button>
                     </li>
-                    <li className="nav-item" role="presentation">
-                        <button 
-                            className="nav-link text-danger" 
-                            id="questions-tab" 
-                            data-bs-toggle="tab"
-                            data-bs-target="#questions" 
-                            type="button" 
-                            role="tab" 
-                            aria-controls="questions" 
-                            aria-selected="false"
+                    <li className="nav-item">
+                        <button
+                            className={`nav-link ${activeTab === 'questions' ? 'active' : ''}`}
+                            style={{
+                                color: activeTab === 'questions' ? 'black' : '#dc3545'
+                            }}
+                            onClick={() => setActiveTab('questions')}
                         >
                             Questions
                         </button>
                     </li>
                 </ul>
+                {/*<ul className="nav nav-tabs mt-5" id="wd-quiz-editor-tabs" role="tablist">*/}
+                {/*    <li className="nav-item" role="presentation">*/}
+                {/*        <button */}
+                {/*            className="nav-link active" */}
+                {/*            id="details-tab" */}
+                {/*            data-bs-toggle="tab"*/}
+                {/*            data-bs-target="#details" */}
+                {/*            type="button" */}
+                {/*            role="tab" */}
+                {/*            aria-controls="details" */}
+                {/*            aria-selected="true"*/}
+                {/*        >*/}
+                {/*            Details*/}
+                {/*        </button>*/}
+                {/*    </li>*/}
+                {/*    <li className="nav-item" role="presentation">*/}
+                {/*        <button */}
+                {/*            className="nav-link text-danger" */}
+                {/*            id="questions-tab" */}
+                {/*            data-bs-toggle="tab"*/}
+                {/*            data-bs-target="#questions" */}
+                {/*            type="button" */}
+                {/*            role="tab" */}
+                {/*            aria-controls="questions" */}
+                {/*            aria-selected="false"*/}
+                {/*        >*/}
+                {/*            Questions*/}
+                {/*        </button>*/}
+                {/*    </li>*/}
+                {/*</ul>*/}
 
                 {/* Tab Content */}
-                <div className="tab-content" id="wd-quiz-editor-tabs-content">
-                    <div 
-                        className="tab-pane fade show active" 
-                        id="details" 
-                        role="tabpanel" 
-                        aria-labelledby="details-tab"
-                    >
+                <div className="mt-3">
+                    {activeTab === 'details' && (
                         <QuizDetailsEditor
                             quiz={quiz}
                             courseId={cid}
                             quizId={qid}
                         />
-                    </div>
-                    <div 
-                        className="tab-pane fade" 
-                        id="questions" 
-                        role="tabpanel" 
-                        aria-labelledby="questions-tab"
-                    >
-                        <QuizQuestionsEditor 
-                            
-                        />
-                    </div>
+                    )}
+                    {activeTab === 'questions' && (
+                        <QuizQuestionsEditor />
+                    )}
                 </div>
+                {/*<div className="tab-content" id="wd-quiz-editor-tabs-content">*/}
+                {/*    <div*/}
+                {/*        className="tab-pane fade show active"*/}
+                {/*        id="details"*/}
+                {/*        role="tabpanel"*/}
+                {/*        aria-labelledby="details-tab"*/}
+                {/*    >*/}
+                {/*        <QuizDetailsEditor*/}
+                {/*            quiz={quiz}*/}
+                {/*            courseId={cid}*/}
+                {/*            quizId={qid}*/}
+                {/*        />*/}
+                {/*    </div>*/}
+                {/*    <div*/}
+                {/*        className="tab-pane fade"*/}
+                {/*        id="questions"*/}
+                {/*        role="tabpanel"*/}
+                {/*        aria-labelledby="questions-tab"*/}
+                {/*    >*/}
+                {/*        <QuizQuestionsEditor*/}
+
+                {/*        />*/}
+                {/*    </div>*/}
+                {/*</div>*/}
             </div>
         </div>
     );

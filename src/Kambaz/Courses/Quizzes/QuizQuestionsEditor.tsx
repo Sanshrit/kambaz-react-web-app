@@ -166,16 +166,38 @@ const cancelEdit = () => {
         }
     };
 
+    // const deletePossibleAnswer = (index: number) => {
+    //     setPossibleAnswers(possibleAnswers.filter((_: any, i: number) => i !== index));
+    // };
+
     const deletePossibleAnswer = (index: number) => {
-        setPossibleAnswers(possibleAnswers.filter((_: any, i: number) => i !== index));
+    const answerToDelete = possibleAnswers[index];
+    const newAnswers = possibleAnswers.filter((_: any, i: number) => i !== index);
+    setPossibleAnswers(newAnswers);
+
+    // If we're deleting the correct answer, clear it
+    if (correctAnswer === answerToDelete) {
+        setCorrectAnswer("");
+        }
     };
 
     const addPossibleAnswer = () => {
         setPossibleAnswers([...possibleAnswers, "Possible Answer"]);
     };
 
+    // const updatePossibleAnswer = (index: number, value: string) => {
+    //     setPossibleAnswers(possibleAnswers.map((pa: any, i: number) => i === index ? value : pa));
+    // };
+
     const updatePossibleAnswer = (index: number, value: string) => {
-        setPossibleAnswers(possibleAnswers.map((pa: any, i: number) => i === index ? value : pa));
+    const oldValue = possibleAnswers[index];
+    const newAnswers = possibleAnswers.map((pa: any, i: number) => i === index ? value : pa);
+    setPossibleAnswers(newAnswers);
+
+    // If the correct answer was the old value, update it to the new value
+    if (correctAnswer === oldValue) {
+        setCorrectAnswer(value);
+        }
     };
 
     const saveAllQuestions = async () => {
@@ -345,6 +367,18 @@ const cancelEdit = () => {
                                         <div>
                                             {possibleAnswers.map((possAns: any, index: number) => (
                                                 <div className="d-flex flex-row justify-content-center align-items-center mb-2" key={index}>
+                                                    {/* Only show radio button for multiple choice questions */}
+                                                    {questionType === "multiple choice" && (
+                                                        <input
+                                                            type="radio"
+                                                            name="correct-answer"
+                                                            value={possAns}
+                                                            checked={correctAnswer === possAns}
+                                                            onChange={(e) => setCorrectAnswer(e.target.value)}
+                                                            className="me-2"
+                                                            id={`correct-${index}`}
+                                                        />
+                                                    )}
                                                     <input
                                                         type="text"
                                                         className={`form-control w-25 mb-2 ${correctAnswer === possAns ? "text-success fw-bold" : ""}`}
@@ -358,6 +392,21 @@ const cancelEdit = () => {
                                                     />
                                                 </div>
                                             ))}
+                                            {/*{possibleAnswers.map((possAns: any, index: number) => (*/}
+                                            {/*    <div className="d-flex flex-row justify-content-center align-items-center mb-2" key={index}>*/}
+                                            {/*        <input*/}
+                                            {/*            type="text"*/}
+                                            {/*            className={`form-control w-25 mb-2 ${correctAnswer === possAns ? "text-success fw-bold" : ""}`}*/}
+                                            {/*            value={possAns}*/}
+                                            {/*            onChange={(e) => updatePossibleAnswer(index, e.target.value)}*/}
+                                            {/*        />*/}
+                                            {/*        <FaTrash*/}
+                                            {/*            className="text-danger ms-2"*/}
+                                            {/*            style={{ cursor: 'pointer' }}*/}
+                                            {/*            onClick={() => deletePossibleAnswer(index)}*/}
+                                            {/*        />*/}
+                                            {/*    </div>*/}
+                                            {/*))}*/}
                                             <br />
 
                                             {/* Correct Answer Input for Multiple Choice */}
