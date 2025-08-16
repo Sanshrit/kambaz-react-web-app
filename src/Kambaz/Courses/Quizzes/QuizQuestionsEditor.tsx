@@ -409,17 +409,16 @@ const cancelEdit = () => {
                                             {/*))}*/}
                                             <br />
 
-                                            {/* Correct Answer Input for Multiple Choice */}
+                                            {/* Correct Answer for Multiple Choice */}
                                             {questionType === "multiple choice" && (
                                                 <div className="d-flex justify-content-center mb-3">
                                                     <div className="text-center">
                                                         <label className="fw-bold mb-2">Correct Answer:</label><br />
-                                                        <input
-                                                            className="form-control"
-                                                            style={{ width: '300px' }}
-                                                            value={correctAnswer}
-                                                            onChange={(e) => setCorrectAnswer(e.target.value)}
-                                                        />
+                                                        <div className="p-2 border rounded bg-light" style={{ width: '300px', minHeight: '38px' }}>
+                                                            <span className="text-success fw-bold">
+                                                                {correctAnswer || "Please select a correct answer above"}
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             )}
