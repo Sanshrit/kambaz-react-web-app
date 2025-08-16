@@ -499,18 +499,15 @@ export default function TakeQuiz() {
                         ) : canTakeQuiz ? (
                             <div className="alert alert-info mb-4">
                                 <strong>Attempt {attemptNumber} of {quiz.attemptsAllowed || 1}</strong>
-                                {lastAttempt && (
-                                    <div className="mt-2">
-                                        Last attempt score: {lastAttempt.score} out of {quiz.points} points
-                                    </div>
-                                )}
                                 <div className="mt-2">
-                                    <strong>Instructions:</strong> Answer all questions and click Submit when finished.
+                                    <strong>Instructions:</strong> Answer all questions and click
+                                    Submit when finished.
                                 </div>
                             </div>
                         ) : (
                             <div className="alert alert-warning mb-4">
-                                <strong>Maximum attempts reached.</strong> You cannot take this quiz again.
+                                <strong>Maximum attempts reached.</strong> You cannot take this quiz
+                                again.
                             </div>
                         )}
 
