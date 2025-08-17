@@ -90,7 +90,7 @@ export default function QuizQuestionsEditor() {
                 questionType: questionType,
                 content: content,
                 correctAnswer: correctAnswer,
-                 possibleAnswers: questionType === "true false" ? ["True", "False"] : possibleAnswers,
+                possibleAnswers: questionType === "true false" ? ["True", "False"] : possibleAnswers,
                 editing: false
             };
 
@@ -122,24 +122,24 @@ export default function QuizQuestionsEditor() {
     };
 
 
-const cancelEdit = () => {
-    const questionBeingEdited = currentQuestions.find((q: any) => q._id === questionId);
-    
-    // If it's a new question (not saved to database yet), remove it completely
-    if (questionBeingEdited && !quiz.questions?.find((q: any) => q._id === questionId)) {
-        // Remove from local state completely
-        setCurrentQuestions((prevQuestions: any) => 
-            prevQuestions.filter((cq: any) => cq._id !== questionId)
-        );
-    } else {
-        // If it's an existing question, just stop editing
-        setCurrentQuestions((prevQuestions: any) =>
-            prevQuestions.map((cq: any) =>
-                cq._id === questionId ? { ...cq, editing: false } : cq
-            )
-        );
-    }
-};
+    const cancelEdit = () => {
+        const questionBeingEdited = currentQuestions.find((q: any) => q._id === questionId);
+
+        // If new question, remove it 
+        if (questionBeingEdited && !quiz.questions?.find((q: any) => q._id === questionId)) {
+            // Remove from local state
+            setCurrentQuestions((prevQuestions: any) =>
+                prevQuestions.filter((cq: any) => cq._id !== questionId)
+            );
+        } else {
+            // If existing question, stop editing
+            setCurrentQuestions((prevQuestions: any) =>
+                prevQuestions.map((cq: any) =>
+                    cq._id === questionId ? { ...cq, editing: false } : cq
+                )
+            );
+        }
+    };
 
     const deleteQuestion = async (questionId: string) => {
         try {
@@ -171,13 +171,13 @@ const cancelEdit = () => {
     // };
 
     const deletePossibleAnswer = (index: number) => {
-    const answerToDelete = possibleAnswers[index];
-    const newAnswers = possibleAnswers.filter((_: any, i: number) => i !== index);
-    setPossibleAnswers(newAnswers);
+        const answerToDelete = possibleAnswers[index];
+        const newAnswers = possibleAnswers.filter((_: any, i: number) => i !== index);
+        setPossibleAnswers(newAnswers);
 
-    // If we're deleting the correct answer, clear it
-    if (correctAnswer === answerToDelete) {
-        setCorrectAnswer("");
+        // If deleting the correct answer, clear it
+        if (correctAnswer === answerToDelete) {
+            setCorrectAnswer("");
         }
     };
 
@@ -190,13 +190,13 @@ const cancelEdit = () => {
     // };
 
     const updatePossibleAnswer = (index: number, value: string) => {
-    const oldValue = possibleAnswers[index];
-    const newAnswers = possibleAnswers.map((pa: any, i: number) => i === index ? value : pa);
-    setPossibleAnswers(newAnswers);
+        const oldValue = possibleAnswers[index];
+        const newAnswers = possibleAnswers.map((pa: any, i: number) => i === index ? value : pa);
+        setPossibleAnswers(newAnswers);
 
-    // If the correct answer was the old value, update it to the new value
-    if (correctAnswer === oldValue) {
-        setCorrectAnswer(value);
+        // If the correct answer was the old value, update it to the new value
+        if (correctAnswer === oldValue) {
+            setCorrectAnswer(value);
         }
     };
 
@@ -274,22 +274,22 @@ const cancelEdit = () => {
                                         />
                                     </div>
                                     <div className="col-sm-3">
-                                    <select
-    className="form-control w-100"
-    value={questionType}
-    onChange={(e) => {
-        const newType = e.target.value;
-        setQuestionType(newType);
-        // Update possibleAnswers when type changes
-        if (newType === "true false") {
-            setPossibleAnswers(["true", "false"]);
-            setCorrectAnswer(""); // Reset correct answer
-        } else {
-            setPossibleAnswers(["Possible Answer"]);
-            setCorrectAnswer(""); // Reset correct answer
-        }
-    }}
->
+                                        <select
+                                            className="form-control w-100"
+                                            value={questionType}
+                                            onChange={(e) => {
+                                                const newType = e.target.value;
+                                                setQuestionType(newType);
+                                                // Update possibleAnswers when type changes
+                                                if (newType === "true false") {
+                                                    setPossibleAnswers(["true", "false"]);
+                                                    setCorrectAnswer(""); // Reset correct answer
+                                                } else {
+                                                    setPossibleAnswers(["Possible Answer"]);
+                                                    setCorrectAnswer(""); // Reset correct answer
+                                                }
+                                            }}
+                                        >
                                             <option value="multiple choice">Multiple Choice</option>
                                             <option value="fill in blank">Fill in the Blank</option>
                                             <option value="true false">True or False</option>

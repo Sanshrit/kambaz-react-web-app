@@ -20,14 +20,14 @@ export default function QuizDetails() {
             try {
                 setLoading(true);
                 
-                // First try to find quiz in Redux store
+                //Attempt to find quiz in Redux store
                 const existingQuiz = quizzes.find((q: any) => q._id === qid);
                 
                 if (existingQuiz) {
                     setQuizLocal(existingQuiz);
                     dispatch(setQuiz(existingQuiz));
                 } else {
-                    // If not in store, fetch from API (handles page refresh)
+                    // If not in, fetch from API (handles page refresh)
                     const fetchedQuiz = await client.findQuiz(cid as string, qid as string);
                     console.log("Fetched quiz from API:", fetchedQuiz); 
                     setQuizLocal(fetchedQuiz[0]);

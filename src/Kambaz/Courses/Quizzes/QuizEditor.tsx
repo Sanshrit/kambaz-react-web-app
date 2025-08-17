@@ -71,7 +71,6 @@ export default function QuizEditor() {
             dispatch(setQuiz(fetchedQuiz[0]));
         } catch (error) {
             console.error("Error fetching quiz:", error);
-            // Handle error - maybe redirect or show error message
         }
     };
 

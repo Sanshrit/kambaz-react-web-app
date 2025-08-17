@@ -12,16 +12,12 @@ export default function QuizControlButtons({ quiz }: { quiz: any }) {
     const dispatch = useDispatch();
 
     const togglePublishStatus = async (e: React.MouseEvent) => {
-        e.preventDefault(); // Prevent navigation
+        e.preventDefault();
         
         try {
             const newStatus = quiz.status === "published" ? "unpublished" : "published";
             const updatedQuiz = { ...quiz, status: newStatus };
-            
-            // Update in database
             await client.updateQuiz(updatedQuiz);
-            
-            // Update Redux store
             dispatch(updateQuiz(updatedQuiz));
             
             console.log(`Quiz ${quiz.title} status changed to: ${newStatus}`);
@@ -32,7 +28,7 @@ export default function QuizControlButtons({ quiz }: { quiz: any }) {
     };
 
     const handleDelete = async (e: React.MouseEvent) => {
-        e.preventDefault(); // Prevent navigation
+        e.preventDefault();
         
         if (window.confirm(`Are you sure you want to delete "${quiz.title}"?`)) {
             try {

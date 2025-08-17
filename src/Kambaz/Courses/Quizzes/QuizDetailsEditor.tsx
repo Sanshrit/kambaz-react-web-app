@@ -1,22 +1,26 @@
 import { useNavigate } from "react-router-dom";
-import {useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import * as quizzesClient from "./client";
-import { 
+import {
     setQuiz,
-    clearQuiz, 
-    addQuiz, 
-    updateQuiz 
+    clearQuiz,
+    addQuiz,
+    updateQuiz
 } from "./reducer";
 
-interface DetailsEditorProps {
-    quiz: any;
-    courseId: string | undefined;
-    quizId: string | undefined;
-}
+// interface DetailsEditorProps {
+//     quiz: any;
+//     courseId: string | undefined;
+//     quizId: string | undefined;
+// }
 
-export default function QuizDetailsEditor({ quiz, courseId, quizId }: DetailsEditorProps) {
+export default function QuizDetailsEditor({ quiz, courseId, quizId }: {
+    quiz: any,
+    courseId: string | undefined,
+    quizId: string | undefined
+}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const isNewQuiz = quizId === "new";
@@ -26,7 +30,7 @@ export default function QuizDetailsEditor({ quiz, courseId, quizId }: DetailsEdi
         toolbar: [
             [{ 'header': [1, 2, 3, false] }],
             ['bold', 'italic', 'underline', 'strike'],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
             ['link'],
             [{ 'color': [] }, { 'background': [] }],
             ['clean']
@@ -58,7 +62,7 @@ export default function QuizDetailsEditor({ quiz, courseId, quizId }: DetailsEdi
     const handleSaveAndPublish = async () => {
         try {
             const publishedQuiz = { ...quiz, status: "published" };
-            
+
             if (isNewQuiz) {
                 const newQuiz = await quizzesClient.createQuiz(courseId as string, publishedQuiz);
                 dispatch(addQuiz(newQuiz));
@@ -217,7 +221,7 @@ export default function QuizDetailsEditor({ quiz, courseId, quizId }: DetailsEdi
                                         <input
                                             type="number"
                                             className="form-control d-inline-block me-2"
-                                            style={{width: '80px'}}
+                                            style={{ width: '80px' }}
                                             value={quiz.minutes || 20}
                                             onChange={(e) => dispatch(setQuiz({ ...quiz, minutes: parseInt(e.target.value) || 20 }))}
                                         />
@@ -315,7 +319,7 @@ export default function QuizDetailsEditor({ quiz, courseId, quizId }: DetailsEdi
                                             <input
                                                 type="number"
                                                 className="form-control me-2"
-                                                style={{width: '80px'}}
+                                                style={{ width: '80px' }}
                                                 value={quiz.attemptsAllowed || 1}
                                                 min="1"
                                                 onChange={(e) => dispatch(setQuiz({ ...quiz, attemptsAllowed: parseInt(e.target.value) || 1 }))}
@@ -393,7 +397,7 @@ export default function QuizDetailsEditor({ quiz, courseId, quizId }: DetailsEdi
                         >
                             Cancel
                         </button>
-                        
+
                         <div className="dropdown d-inline">
                             <button
                                 type="button"

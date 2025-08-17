@@ -34,7 +34,7 @@ export default function TakeQuiz() {
                 setLoading(true);
                 let currentQuizData = null; // Single variable for quiz reference
 
-                // Try to find quiz in Redux store first
+                // find quiz in Redux store first
                 const existingQuiz = quizzes.find((q: any) => q._id === qid);
 
                 if (existingQuiz) {
@@ -49,7 +49,7 @@ export default function TakeQuiz() {
                     currentQuizData = fetchedQuiz[0]; // Use the same variable
                 }
 
-                // For students (not preview), check attempt status
+                // For students, check attempt status
                 if (!isPreview && currentUser?._id && currentQuizData) {
                     const userAttempts = currentUser.quizAttempts?.filter((attempt: any) =>
                         attempt.course === cid && attempt.quiz === qid) || [];
@@ -93,7 +93,7 @@ export default function TakeQuiz() {
         }
     }, [cid, qid, currentUser, isPreview, quizzes, dispatch]);
 
-    // Set timer when quiz loads (only for students)
+    // Set timer when quiz loads
     useEffect(() => {
         if (quiz && !isPreview && quiz.timeLimit && quiz.minutes && canTakeQuiz) {
             setTimeRemaining(quiz.minutes * 60); // Convert minutes to seconds
@@ -116,6 +116,7 @@ export default function TakeQuiz() {
             return () => clearInterval(timer);
         }
     }, [timeRemaining, isCompleted, isPreview]);
+    
     useEffect(() => {
     // Recalculate attempt number when currentUser.quizAttempts changes
     if (currentUser?.quizAttempts && cid && qid && !isCompleted) {
