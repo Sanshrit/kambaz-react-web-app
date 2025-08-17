@@ -47,11 +47,11 @@ export default function QuizDetailsEditor({ quiz, courseId, quizId }: {
             if (isNewQuiz) {
                 const newQuiz = await quizzesClient.createQuiz(courseId as string, quiz);
                 dispatch(addQuiz(newQuiz));
-                navigate(`/Kambaz/Courses/${courseId}/Quizzes/`);
+                navigate(`/Kambaz/Courses/${courseId}/Quizzes/${newQuiz._id}`);
             } else {
                 const updatedQuiz = await quizzesClient.updateQuiz(quiz);
                 dispatch(updateQuiz(updatedQuiz));
-                navigate(`/Kambaz/Courses/${courseId}/Quizzes/`);
+                navigate(`/Kambaz/Courses/${courseId}/Quizzes/${quizId}`);
             }
         } catch (error) {
             console.error(error);
