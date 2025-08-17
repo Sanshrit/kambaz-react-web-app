@@ -162,7 +162,7 @@ export default function Dashboard(
                                                     {courseItem.description}
                                                 </Card.Text>
                                                 <div className="text-center text-muted mt-2">
-                                                    <small>View mode - use enrollment button below</small>
+                                                    <small>View mode - use "My Courses" buttons to access course content</small>
                                                 </div>
                                             </Card.Body>
                                         </div>
