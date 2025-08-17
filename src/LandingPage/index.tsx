@@ -4,7 +4,7 @@ export default function LandingPage() {
     return (
         <div className='d-flex flex-column justify-content-center align-items-center'>
             <br />
-            <h1>Project - Kambaz Quizzes</h1>
+            <h2>Project - Kambaz Quizzes</h2>
             <h4>Project Group: ShashwatTiwari-SanshritBakshi</h4>
             <h4>Team Members:</h4>
             <h4>
@@ -13,15 +13,36 @@ export default function LandingPage() {
                     <li>Shashwat Tiwari</li>
                 </ul>
             </h4>
-            <Button
-                variant="outline-success"
-                as={Link as any}
-                to="/Kambaz"
-                className="w-50 py-3 fw-bold border-2"
-            >
-                Kambaz
-            </Button>
-            <br /><br /><br/>
+            <>
+                <Button
+                    variant="outline-success"
+                    as={Link as any}
+                    to="/Kambaz"
+                    className="w-50 py-3 fw-bold border-2"
+                >
+                    Kambaz
+                </Button>
+                <br />
+                <Button
+                    variant="outline-dark"
+                    href="https://github.com/Sanshrit/kambaz-react-web-app"
+                    target="_blank"
+                    className="w-50 py-3 fw-bold border-2"
+                >
+                    Github - FrontEnd
+                </Button>
+                <br />
+                <Button
+                    variant="outline-dark"
+                    href="https://github.com/Sanshrit/kambaz-node-server-app"
+                    target="_blank"
+                    className="w-50 py-3 fw-bold border-2"
+                >
+                    Github - BackEnd
+                </Button>
+
+            </>
+            <br /><br /><br />
             <div className='text-center'>
                 <h1>Sanshrit Bakshi</h1>
                 <h2 className='text-danger'>NUID: <span className="text-black">002407899</span></h2>
