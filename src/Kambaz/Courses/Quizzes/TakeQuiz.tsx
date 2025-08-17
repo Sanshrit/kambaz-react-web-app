@@ -116,33 +116,33 @@ export default function TakeQuiz() {
             return () => clearInterval(timer);
         }
     }, [timeRemaining, isCompleted, isPreview]);
-    
+
     useEffect(() => {
-    // Recalculate attempt number when currentUser.quizAttempts changes
-    if (currentUser?.quizAttempts && cid && qid && !isCompleted) {
-        const userAttempts = currentUser.quizAttempts.filter((attempt: any) =>
-            attempt.course === cid && attempt.quiz === qid
-        );
+        // Recalculate attempt number when currentUser.quizAttempts changes
+        if (currentUser?.quizAttempts && cid && qid && !isCompleted) {
+            const userAttempts = currentUser.quizAttempts.filter((attempt: any) =>
+                attempt.course === cid && attempt.quiz === qid
+            );
 
-        const newAttemptNumber = userAttempts.length + 1;
-        setAttemptNumber(newAttemptNumber);
+            const newAttemptNumber = userAttempts.length + 1;
+            setAttemptNumber(newAttemptNumber);
 
-        console.log("Recalculated attempt number:", newAttemptNumber, "based on attempts:", userAttempts.length);
-    }
-}, [currentUser?.quizAttempts, cid, qid, isCompleted]);
-//     useEffect(() => {
-//     // Recalculate attempt number when currentUser.quizAttempts changes
-//     if (currentUser?.quizAttempts && cid && qid) {
-//         const userAttempts = currentUser.quizAttempts.filter((attempt: any) =>
-//             attempt.course === cid && attempt.quiz === qid
-//         );
-//
-//         const newAttemptNumber = userAttempts.length + 1;
-//         setAttemptNumber(newAttemptNumber);
-//
-//         console.log("Recalculated attempt number:", newAttemptNumber, "based on attempts:", userAttempts.length);
-//     }
-// }, [currentUser?.quizAttempts, cid, qid]);
+            console.log("Recalculated attempt number:", newAttemptNumber, "based on attempts:", userAttempts.length);
+        }
+    }, [currentUser?.quizAttempts, cid, qid, isCompleted]);
+    //     useEffect(() => {
+    //     // Recalculate attempt number when currentUser.quizAttempts changes
+    //     if (currentUser?.quizAttempts && cid && qid) {
+    //         const userAttempts = currentUser.quizAttempts.filter((attempt: any) =>
+    //             attempt.course === cid && attempt.quiz === qid
+    //         );
+    //
+    //         const newAttemptNumber = userAttempts.length + 1;
+    //         setAttemptNumber(newAttemptNumber);
+    //
+    //         console.log("Recalculated attempt number:", newAttemptNumber, "based on attempts:", userAttempts.length);
+    //     }
+    // }, [currentUser?.quizAttempts, cid, qid]);
 
     const handleAnswerChange = (questionId: string, answer: string) => {
         setUserAnswers(prev => ({
@@ -402,9 +402,18 @@ export default function TakeQuiz() {
                                                 <div className="mt-2">
                                                     <strong>Your Answer:</strong> {userAnswer || "Not answered"}
                                                 </div>
-                                                {(quiz.showCorrectAnswers || isPreview) && (
+                                                {/* {(quiz.showCorrectAnswers || isPreview) && (
                                                     <div>
                                                         <strong>Correct Answer:</strong> {question.correctAnswer}
+                                                    </div>
+                                                )} */}
+                                                {(quiz.showCorrectAnswers || isPreview) && (
+                                                    <div>
+                                                        <strong>Correct Answer:</strong> {
+                                                            question.questionType === "fill in blank"
+                                                                ? question.possibleAnswers?.join(" or ")
+                                                                : question.correctAnswer
+                                                        }
                                                     </div>
                                                 )}
                                             </div>
@@ -549,9 +558,9 @@ export default function TakeQuiz() {
                                                     checked={userAnswers[currentQuestion._id] === "true"}
                                                     onChange={(e) => handleAnswerChange(currentQuestion._id, e.target.value)}
                                                 />
-                                                <label 
-                                                className="form-check-label"
-                                                htmlFor={`${currentQuestion._id}-true`}
+                                                <label
+                                                    className="form-check-label"
+                                                    htmlFor={`${currentQuestion._id}-true`}
                                                 >True</label>
                                             </div>
                                             <div className="form-check">
@@ -565,7 +574,7 @@ export default function TakeQuiz() {
                                                     onChange={(e) => handleAnswerChange(currentQuestion._id, e.target.value)}
                                                 />
                                                 <label className="form-check-label"
-                                                htmlFor={`${currentQuestion._id}-false`}>False</label>
+                                                    htmlFor={`${currentQuestion._id}-false`}>False</label>
                                             </div>
                                         </div>
                                     )}
@@ -585,7 +594,7 @@ export default function TakeQuiz() {
                                                         onChange={(e) => handleAnswerChange(currentQuestion._id, e.target.value)}
                                                     />
                                                     <label className="form-check-label"
-                                                    htmlFor={`${currentQuestion._id}-option-${index}`}>{answer}</label>
+                                                        htmlFor={`${currentQuestion._id}-option-${index}`}>{answer}</label>
                                                 </div>
                                             ))}
                                         </div>
@@ -646,7 +655,7 @@ export default function TakeQuiz() {
                                         <div
                                             key={question._id}
                                             className={`d-flex align-items-center ${index === currentQuestionIndex ? 'fw-bold' : 'text-danger'
-                                            }`}
+                                                }`}
                                             style={{
                                                 cursor: 'pointer',
                                                 padding: '4px 0',
@@ -677,7 +686,7 @@ export default function TakeQuiz() {
                                     }}
                                     onClick={() => navigate(`/Kambaz/Courses/${cid}/Quizzes/${qid}/editor`)}
                                 >
-                                    <FaEdit className="me-2"/>
+                                    <FaEdit className="me-2" />
                                     Keep Editing This Quiz
                                 </button>
                             )}
