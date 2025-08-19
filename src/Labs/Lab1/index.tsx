@@ -116,7 +116,7 @@ export default function Lab1() {
                             <td>Q7</td>
                             <td>MongoDB</td>
                             <td>3/17/21</td>
-                            <td>85</td>
+                            <td>90</td>
                         </tr>
                         <tr>
                             <td>Q8</td>
@@ -153,7 +153,7 @@ export default function Lab1() {
                 <br />
                 Loading a local image:
                 <br />
-                <img id="wd-teslabot" src="/images/teslabot.jpg" height="200px" />
+                <img id="wd-teslabot" alt="tesla bot"src="/images/teslabot.jpg" height="200px" />
             </div>
             <div id="wd-forms">
                 <h4>Form Elements</h4>
@@ -162,13 +162,13 @@ export default function Lab1() {
                     <label htmlFor="wd-text-fields-username">Username:</label>
                     <input placeholder="jdoe" id="wd-text-fields-username" /> <br />
                     <label htmlFor="wd-text-fields-password">Password:</label>
-                    <input type="password" value="123@#$asd" id="wd-text-fields-password" />
+                    <input type="password" defaultValue="123@#$asd" id="wd-text-fields-password" />
                     <br />
                     <label htmlFor="wd-text-fields-first-name">First name:</label>
                     <input type="text" title="John" id="wd-text-fields-first-name" /> <br />
                     <label htmlFor="wd-text-fields-last-name">Last name:</label>
                     <input type="text" placeholder="Doe"
-                        value="Wonderland"
+                        defaultValue="Wonderland"
                         title="The last name"
                         id="wd-text-fields-last-name" />
                     <h5>Text boxes</h5>
@@ -189,6 +189,10 @@ export default function Lab1() {
                         id="wd-all-good">
                         Hello World!
                     </button>
+
+
+                    <h5>File upload</h5>
+                    <input id="wd-upload-button" type="file" />
 
                     <h5 id="wd-radio-buttons">Radio buttons</h5>
 
@@ -250,26 +254,27 @@ export default function Lab1() {
 
                     <label htmlFor="wd-text-fields-salary-start"> Starting salary:</label>
                     <input type="number"
-                        value="100000"
+                        defaultValue="100000"
                         placeholder="1000"
                         id="wd-text-fields-salary-start" /><br />
 
                     <label htmlFor="wd-text-fields-rating"> Rating: </label>
                     <input type="range"
-                        value="4"
+                        defaultValue="4"
                         max="5"
                         placeholder="Doe"
                         id="wd-text-fields-rating" /><br />
 
                     <label htmlFor="wd-text-fields-dob"> Date of birth: </label>
                     <input type="date"
-                        value="2000-01-21"
+                        defaultValue="2000-01-21"
                         id="wd-text-fields-dob" /><br />
                 </form>
             </div>
             <h4>Anchor tag</h4>
             Please <a href="https://www.lipsum.com" id="wd-lipsum">click here</a> to get dummy text<br />
-            Please <a href="https://www.github.com/Sanshrit" id="wd-github">click here</a> to get access the code repository<br />
+            <h4>Link to Github</h4>
+            Please <a href="https://github.com/Sanshrit/kambaz-react-web-app" id="wd-github">click here</a> to access the code repository<br />
         </div>
     );
 }
